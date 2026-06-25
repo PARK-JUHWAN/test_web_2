@@ -12,27 +12,35 @@
   a{text-decoration:none;color:inherit;}
   button{font-family:inherit;cursor:pointer;}
 
-  /* ================= 상단 헤더 (당근 topbar 대응) ================= */
-  .top{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #f0f0f0;}
-  .top-inner{max-width:1180px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:28px;}
-  .brand{display:flex;align-items:center;gap:9px;flex-shrink:0;}
-  .brand img{width:30px;height:30px;}
-  .brand .name{font-size:19px;font-weight:700;letter-spacing:-.4px;}
-  .brand .name .mk{color:#0066ff;}
-  .gnb{display:flex;gap:26px;align-items:center;}
-  .gnb a{font-size:15px;font-weight:600;color:#1d1d1f;padding:4px 0;position:relative;}
-  .gnb a:hover{color:#0066ff;}
-  .gnb a.on{color:#0066ff;}
-  .gnb a.on::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:#0066ff;border-radius:1px;}
-  .top-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
-  .btn-app{background:#0066ff;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:600;}
-  .btn-login{background:none;border:1px solid #d2d2d7;color:#1d1d1f;padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;}
+  /* ================= 2단 헤더 (developer.html 양식 통일) ================= */
+  /* 1단: 로고 / 홍보문구(fade) / 로그인 */
+  .main-nav{position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:100;height:64px;display:flex;align-items:center;}
+  .nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center;width:100%;gap:20px;}
+  .nav-brand{font-size:17px;font-weight:700;letter-spacing:-.4px;cursor:pointer;flex-shrink:0;}
+  .nav-brand .mk{color:#0066ff;}
+  /* 가운데 홍보문구 fade */
+  .promo{flex:1;text-align:center;position:relative;height:24px;overflow:hidden;}
+  .promo span{position:absolute;left:0;right:0;top:0;font-size:15px;font-weight:600;color:#1d1d1f;letter-spacing:-.3px;opacity:0;transition:opacity .6s ease;}
+  .promo span.on{opacity:1;}
+  .promo b{color:#0066ff;font-weight:700;}
+  /* 우측 로그인/마이페이지/앱 */
+  .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .btn-login{background:none;border:1px solid #d2d2d7;color:#1d1d1f;padding:8px 15px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;}
   .btn-login:hover{border-color:#0066ff;color:#0066ff;}
-  .btn-mypage{background:none;border:1px solid #0066ff;color:#0066ff;padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
+  .btn-mypage{background:none;border:1px solid #0066ff;color:#0066ff;padding:8px 15px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;}
   .btn-mypage:hover{background:rgba(0,102,255,.05);}
+  .btn-app{background:#0066ff;color:#fff;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;}
+
+  /* 2단: 메뉴 (장터 / 맞춤제작 / 커뮤니티) */
+  .sub-nav{position:sticky;top:64px;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:99;}
+  .sub-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;gap:36px;align-items:center;height:48px;}
+  .sub-inner a{font-size:14px;color:#515154;font-weight:500;cursor:pointer;transition:color .25s;position:relative;padding:14px 0;}
+  .sub-inner a:hover{color:#1d1d1f;}
+  .sub-inner a.active{color:#1d1d1f;font-weight:600;}
+  .sub-inner a.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#1d1d1f;border-radius:1px;}
 
   /* ================= 검색 영역 (당근 search row 대응) ================= */
-  .search-row{max-width:1180px;margin:0 auto;padding:18px 24px 0;display:flex;align-items:center;gap:12px;}
+  .search-row{max-width:1180px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:12px;}
   .loc-pick{display:flex;align-items:center;gap:6px;border:1px solid #e0e0e0;border-radius:980px;padding:11px 18px;font-size:14px;font-weight:600;flex-shrink:0;}
   .loc-pick .pin{color:#0066ff;}
   .loc-pick .car{color:#86868b;font-size:11px;}
@@ -97,9 +105,16 @@
 
   /* ===== 반응형 ===== */
   @media(max-width:768px){
-    .top-inner{padding:14px 16px;gap:16px;}
-    .gnb{display:none;}
-    .search-row{flex-wrap:wrap;padding:14px 16px 0;}
+    .nav-inner{padding:0 16px;}
+    .main-nav{height:56px;}
+    .sub-nav{top:56px;}
+    .sub-inner{padding:0 16px;gap:22px;height:44px;}
+    .sub-inner a{font-size:13px;}
+    .promo{display:none;}              /* 모바일은 홍보문구 숨김 (공간 부족) */
+    .btn-app{display:none;}            /* 모바일은 앱다운로드 숨김 (로그인만) */
+    .nav-right{gap:8px;}
+    .btn-login,.btn-mypage{font-size:12px;padding:7px 12px;}
+    .search-row{flex-wrap:wrap;padding:18px 16px 0;}
     .loc-pick{order:1;}
     .search-box{order:2;width:100%;}
     .related{padding:12px 16px 0;gap:14px;}
@@ -113,25 +128,30 @@
 </head>
 <body>
 
-<!-- ===== 상단 헤더 ===== -->
-<header class="top">
-  <div class="top-inner">
-    <div class="brand">
-      <img src="images/web_icon.png" alt="포오프">
-      <span class="name">FOUR OFF <span class="mk">마켓</span></span>
+<!-- ===== 1단 헤더: 로고 / 홍보문구(fade) / 로그인 ===== -->
+<nav class="main-nav">
+  <div class="nav-inner">
+    <div class="nav-brand" onclick="location.href='index.html'">포오프 <span class="mk">마켓</span></div>
+    <div class="promo" id="promo">
+      <span class="on">근무표 맡기고 <b>시간</b>을 벌자</span>
+      <span>근무표 만들고 <b>용돈</b>을 벌자</span>
     </div>
-    <nav class="gnb">
-      <a class="on">근무표 장터</a>
-      <a href="pages/sub.html">맞춤제작</a>
-      <a>커뮤니티</a>
-    </nav>
-    <div class="top-right">
+    <div class="nav-right">
       <a class="btn-login" id="btnLogin" href="login.html">로그인</a>
       <a class="btn-mypage" id="btnMypage" href="login.html" style="display:none">마이페이지</a>
       <a class="btn-app" href="https://park-juhwan.github.io/fouroff_entrance/" target="_blank">앱 다운로드</a>
     </div>
   </div>
-</header>
+</nav>
+
+<!-- ===== 2단 헤더: 메뉴 ===== -->
+<nav class="sub-nav">
+  <div class="sub-inner">
+    <a class="active">근무표 장터</a>
+    <a href="pages/sub.html">맞춤제작</a>
+    <a>커뮤니티</a>
+  </div>
+</nav>
 
 <!-- ===== 검색 영역 ===== -->
 <div class="search-row">
@@ -354,6 +374,17 @@ function updateAuthUI(loggedIn) {
     btnMypage.style.display = 'none';     // "마이페이지" 숨김
   }
 }
+// ===== 홍보문구 fade in/out (3.5초마다 교체) =====
+(function rotatePromo() {
+  var items = document.querySelectorAll('#promo span');
+  if (items.length < 2) return;
+  var idx = 0;
+  setInterval(function() {
+    items[idx].classList.remove('on');
+    idx = (idx + 1) % items.length;
+    items[idx].classList.add('on');
+  }, 3500);
+})();
 </script>
 
 </body>
