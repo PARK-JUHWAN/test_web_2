@@ -28,9 +28,8 @@
   .btn-app{background:#0066ff;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:600;}
   .btn-login{background:none;border:1px solid #d2d2d7;color:#1d1d1f;padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;}
   .btn-login:hover{border-color:#0066ff;color:#0066ff;}
-  .btn-logout{background:none;border:none;color:#86868b;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;}
-  .btn-logout:hover{color:#1d1d1f;}
-  .user-nick{font-size:14px;font-weight:600;color:#1d1d1f;}
+  .btn-mypage{background:none;border:1px solid #0066ff;color:#0066ff;padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
+  .btn-mypage:hover{background:rgba(0,102,255,.05);}
 
   /* ================= 검색 영역 (당근 search row 대응) ================= */
   .search-row{max-width:1180px;margin:0 auto;padding:18px 24px 0;display:flex;align-items:center;gap:12px;}
@@ -122,16 +121,14 @@
       <span class="name">FOUR OFF <span class="mk">마켓</span></span>
     </div>
     <nav class="gnb">
-      <a class="on">근무표 의뢰</a>
-      <a>맞춤제작</a>
-      <a>이용방법</a>
-      <a>간호사 지원</a>
+      <a class="on">근무표 장터</a>
+      <a href="pages/sub.html">맞춤제작</a>
+      <a>커뮤니티</a>
     </nav>
     <div class="top-right">
-      <span class="user-nick" id="userNick" style="display:none"></span>
-      <button class="btn-login" id="btnLogin" onclick="kakaoLogin()">로그인</button>
-      <button class="btn-logout" id="btnLogout" style="display:none" onclick="logout()">로그아웃</button>
-      <a class="btn-app">앱 다운로드</a>
+      <a class="btn-login" id="btnLogin" href="login.html">로그인</a>
+      <a class="btn-mypage" id="btnMypage" href="login.html" style="display:none">마이페이지</a>
+      <a class="btn-app" href="https://park-juhwan.github.io/fouroff_entrance/" target="_blank">앱 다운로드</a>
     </div>
   </div>
 </header>
@@ -329,63 +326,33 @@ var SUPABASE_ANON_KEY = 'sb_publishable_u92DNGXECBBaIMITaSE1yA_N0Ryt0qp';
 var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 var currentUser = null;
 
-// ===== 로그인 상태 체크 (페이지 열릴 때) =====
+// ===== 로그인 상태 체크 → 버튼 토글 =====
+// (실제 로그인/로그아웃은 login.html에서 처리. 여기선 상태만 보고 버튼만 바꿈)
 (async function checkAuth() {
   var r = await supabaseClient.auth.getSession();
   if (r.data.session) {
     currentUser = r.data.session.user;
     updateAuthUI(true);
+  } else {
+    updateAuthUI(false);
   }
   supabaseClient.auth.onAuthStateChange(function(event, session) {
-    if (session) {
-      currentUser = session.user;
-      updateAuthUI(true);
-    } else {
-      currentUser = null;
-      updateAuthUI(false);
-    }
+    if (session) { currentUser = session.user; updateAuthUI(true); }
+    else { currentUser = null; updateAuthUI(false); }
   });
 })();
 
 // ===== 로그인 상태에 따라 버튼 토글 =====
 function updateAuthUI(loggedIn) {
   var btnLogin = document.getElementById('btnLogin');
-  var btnLogout = document.getElementById('btnLogout');
-  var userNick = document.getElementById('userNick');
+  var btnMypage = document.getElementById('btnMypage');
   if (loggedIn) {
-    btnLogin.style.display = 'none';
-    btnLogout.style.display = '';
-    userNick.style.display = '';
-    // 카카오 닉네임 표시
-    var nick = '';
-    if (currentUser && currentUser.user_metadata) {
-      nick = currentUser.user_metadata.name
-          || currentUser.user_metadata.full_name
-          || currentUser.user_metadata.nickname
-          || '';
-    }
-    userNick.textContent = nick ? (nick + '님') : '로그인됨';
+    btnLogin.style.display = 'none';      // "로그인" 숨김
+    btnMypage.style.display = '';         // "마이페이지" 표시
   } else {
-    btnLogin.style.display = '';
-    btnLogout.style.display = 'none';
-    userNick.style.display = 'none';
+    btnLogin.style.display = '';          // "로그인" 표시
+    btnMypage.style.display = 'none';     // "마이페이지" 숨김
   }
-}
-
-// ===== 카카오 로그인 =====
-async function kakaoLogin() {
-  var r = await supabaseClient.auth.signInWithOAuth({
-    provider: 'kakao',
-    options: { redirectTo: window.location.href }
-  });
-  if (r.error) alert('로그인 오류: ' + r.error.message);
-}
-
-// ===== 로그아웃 =====
-async function logout() {
-  await supabaseClient.auth.signOut();
-  currentUser = null;
-  updateAuthUI(false);
 }
 </script>
 

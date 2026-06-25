@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>포오프 마켓 — 로그인 / 마이페이지</title>
+<link rel="icon" href="images/web_icon.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Pretendard','Apple SD Gothic Neo',sans-serif;background:#fff;color:#1d1d1f;-webkit-font-smoothing:antialiased;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  img{display:block;max-width:100%;}
+
+  /* ===== 상단 헤더 ===== */
+  .top{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #f0f0f0;}
+  .top-inner{max-width:1180px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:9px;cursor:pointer;}
+  .brand img{width:30px;height:30px;}
+  .brand .name{font-size:19px;font-weight:700;letter-spacing:-.4px;}
+  .brand .name .mk{color:#0066ff;}
+  .back-home{font-size:14px;color:#86868b;font-weight:500;}
+  .back-home:hover{color:#1d1d1f;}
+
+  /* ===== 로그인 전 화면 ===== */
+  .login-wrap{max-width:420px;margin:0 auto;padding:80px 24px;text-align:center;}
+  .login-logo{width:64px;height:64px;margin:0 auto 28px;}
+  .login-title{font-size:28px;font-weight:600;letter-spacing:-1px;margin-bottom:12px;}
+  .login-sub{font-size:16px;color:#86868b;line-height:1.6;margin-bottom:40px;}
+  .btn-kakao{width:100%;background:#FEE500;color:#191600;border:none;padding:16px;border-radius:12px;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .btn-kakao:hover{background:#f5dc00;}
+  .login-note{margin-top:20px;font-size:13px;color:#a1a1a6;line-height:1.6;}
+
+  /* ===== 마이페이지 (로그인 후) ===== */
+  .mypage{max-width:680px;margin:0 auto;padding:40px 24px 80px;}
+  .profile{display:flex;align-items:center;gap:16px;padding:24px;background:#fafafa;border-radius:16px;margin-bottom:32px;}
+  .profile-avatar{width:56px;height:56px;border-radius:50%;background:#dde7f4;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;}
+  .profile-info{flex:1;}
+  .profile-name{font-size:19px;font-weight:700;}
+  .profile-grade{font-size:13px;color:#0066ff;font-weight:600;margin-top:4px;}
+  .btn-logout{background:none;border:1px solid #e0e0e0;color:#86868b;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;}
+  .btn-logout:hover{border-color:#1d1d1f;color:#1d1d1f;}
+
+  .section-title{font-size:17px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+  .section-title .count{font-size:14px;color:#86868b;font-weight:500;}
+
+  /* 내 의뢰 목록 */
+  .req-list{display:flex;flex-direction:column;gap:12px;}
+  .req-card{display:flex;align-items:center;justify-content:space-between;padding:18px;border:1px solid #e8e8ed;border-radius:14px;}
+  .req-info{flex:1;min-width:0;}
+  .req-title{font-size:15px;font-weight:600;margin-bottom:6px;}
+  .req-meta{font-size:13px;color:#86868b;}
+  .req-status{font-size:12px;font-weight:600;padding:5px 12px;border-radius:980px;flex-shrink:0;margin-left:12px;}
+  .req-status.waiting{background:rgba(0,102,255,.1);color:#0066ff;}
+  .req-status.done{background:rgba(34,197,94,.1);color:#22c55e;}
+
+  /* 빈 상태 */
+  .empty{text-align:center;padding:60px 0;}
+  .empty-text{font-size:15px;color:#86868b;margin-bottom:20px;}
+  .btn-new{display:inline-block;background:#0066ff;color:#fff;padding:13px 28px;border-radius:980px;font-size:15px;font-weight:600;}
+  .btn-new:hover{color:#fff;}
+
+  .hidden{display:none;}
+
+  @media(max-width:768px){
+    .top-inner{padding:14px 16px;}
+    .login-wrap{padding:60px 20px;}
+    .mypage{padding:28px 16px 60px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 상단 헤더 ===== -->
+<header class="top">
+  <div class="top-inner">
+    <div class="brand" onclick="location.href='index.html'">
+      <img src="images/web_icon.png" alt="포오프">
+      <span class="name">FOUR OFF <span class="mk">마켓</span></span>
+    </div>
+    <a class="back-home" href="index.html">← 장터로 돌아가기</a>
+  </div>
+</header>
+
+<!-- ===== 로그인 전 ===== -->
+<div class="login-wrap" id="loginView">
+  <img class="login-logo" src="images/web_icon.png" alt="포오프 마켓">
+  <h1 class="login-title">포오프 마켓</h1>
+  <p class="login-sub">로그인하고 근무표 의뢰를<br>올리거나 맡아보세요</p>
+  <button class="btn-kakao" onclick="kakaoLogin()">
+    <span>💬</span> 카카오로 시작하기
+  </button>
+  <p class="login-note">로그인 시 닉네임 정보만 사용합니다.<br>처음이시면 자동으로 가입됩니다.</p>
+</div>
+
+<!-- ===== 마이페이지 (로그인 후) ===== -->
+<div class="mypage hidden" id="mypageView">
+  <!-- 프로필 -->
+  <div class="profile">
+    <div class="profile-avatar">👤</div>
+    <div class="profile-info">
+      <div class="profile-name" id="userName">—</div>
+      <div class="profile-grade" id="userGrade">일반 회원</div>
+    </div>
+    <button class="btn-logout" onclick="logout()">로그아웃</button>
+  </div>
+
+  <!-- 내 의뢰 -->
+  <div class="section-title">
+    내가 올린 의뢰 <span class="count" id="reqCount"></span>
+  </div>
+  <div id="reqArea">
+    <!-- JS가 채움 -->
+  </div>
+</div>
+
+<script>
+// ===== Supabase 연결 (포오프 마켓) =====
+var SUPABASE_URL = 'https://xsrttjeautreumpwnvps.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_u92DNGXECBBaIMITaSE1yA_N0Ryt0qp';
+var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+var currentUser = null;
+
+// ===== 페이지 열릴 때: 로그인 상태 확인 =====
+(async function init() {
+  var r = await supabaseClient.auth.getSession();
+  if (r.data.session) {
+    currentUser = r.data.session.user;
+    showMypage();
+  } else {
+    showLogin();
+  }
+  // 로그인 상태 변화 감지
+  supabaseClient.auth.onAuthStateChange(function(event, session) {
+    if (session) {
+      currentUser = session.user;
+      showMypage();
+    } else {
+      currentUser = null;
+      showLogin();
+    }
+  });
+})();
+
+// ===== 화면 전환 =====
+function showLogin() {
+  document.getElementById('loginView').classList.remove('hidden');
+  document.getElementById('mypageView').classList.add('hidden');
+}
+
+function showMypage() {
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('mypageView').classList.remove('hidden');
+  updateProfile();
+  loadMyRequests();
+}
+
+// ===== 프로필 표시 =====
+function updateProfile() {
+  var nick = '사용자';
+  if (currentUser && currentUser.user_metadata) {
+    nick = currentUser.user_metadata.name
+        || currentUser.user_metadata.full_name
+        || currentUser.user_metadata.nickname
+        || '사용자';
+  }
+  document.getElementById('userName').textContent = nick + '님';
+}
+
+// ===== 카카오 로그인 =====
+async function kakaoLogin() {
+  var r = await supabaseClient.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: { redirectTo: window.location.href }
+  });
+  if (r.error) alert('로그인 오류: ' + r.error.message);
+}
+
+// ===== 로그아웃 =====
+async function logout() {
+  await supabaseClient.auth.signOut();
+  currentUser = null;
+  showLogin();
+}
+
+// ===== 내 의뢰 목록 불러오기 =====
+async function loadMyRequests() {
+  var reqArea = document.getElementById('reqArea');
+  var reqCount = document.getElementById('reqCount');
+
+  // requests 테이블에서 내가 올린 의뢰 조회
+  // ⚠️ 아직 requests 테이블이 없으면 에러 → 빈 상태로 처리
+  var result;
+  try {
+    result = await supabaseClient
+      .from('requests')
+      .select('*')
+      .eq('user_id', currentUser.id)
+      .order('created_at', { ascending: false });
+  } catch (e) {
+    result = { data: [], error: e };
+  }
+
+  var reqs = (result && result.data) ? result.data : [];
+
+  if (!reqs || reqs.length === 0) {
+    reqCount.textContent = '';
+    reqArea.innerHTML = '<div class="empty">'
+      + '<div class="empty-text">아직 올린 의뢰가 없어요</div>'
+      + '<a class="btn-new" href="index.html">근무표 의뢰하러 가기</a>'
+      + '</div>';
+    return;
+  }
+
+  reqCount.textContent = reqs.length + '건';
+  var html = '<div class="req-list">';
+  for (var i = 0; i < reqs.length; i++) {
+    var q = reqs[i];
+    var statusClass = (q.status === 'done') ? 'done' : 'waiting';
+    var statusText = (q.status === 'done') ? '완료' : '대기중';
+    html += '<div class="req-card">'
+      + '<div class="req-info">'
+      + '<div class="req-title">' + escapeHtml(q.title || '제목 없음') + '</div>'
+      + '<div class="req-meta">' + escapeHtml(q.ward || '') + ' · ' + (q.price || 0) + '원</div>'
+      + '</div>'
+      + '<span class="req-status ' + statusClass + '">' + statusText + '</span>'
+      + '</div>';
+  }
+  html += '</div>';
+  reqArea.innerHTML = html;
+}
+
+function escapeHtml(str) {
+  var d = document.createElement('div');
+  d.textContent = (str === null || str === undefined) ? '' : str;
+  return d.innerHTML;
+}
+</script>
+
+</body>
+</html>
