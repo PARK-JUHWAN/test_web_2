@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- SEO -->
+<title>만든 사람 | 박주환 | 포오프 FOUR OFF</title>
+<meta name="description" content="49개 앱을 혼자 만든 1인 개발자 박주환의 포트폴리오. 3대 룰 시스템(Z·MX·FC RULE)으로 작동하는 근무표 자동 솔버를 직접 설계했습니다.">
+<meta name="keywords" content="근무표 알고리즘,근무표 자동생성,간호사 근무표,근무표">
+<meta name="author" content="박주환">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.fouroff.kr/pages/developer.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="포오프 FOUR OFF">
+<meta property="og:title" content="만든 사람 | 박주환 | 포오프 FOUR OFF">
+<meta property="og:description" content="49개 앱을 혼자 만든 1인 개발자 박주환의 포트폴리오.">
+<meta property="og:url" content="https://www.fouroff.kr/pages/developer.html">
+<meta property="og:image" content="https://www.fouroff.kr/images/web_icon.png">
+<meta property="og:locale" content="ko_KR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="만든 사람 | 박주환 | 포오프 FOUR OFF">
+<meta name="twitter:description" content="49개 앱을 혼자 만든 1인 개발자 박주환의 포트폴리오.">
+<meta name="twitter:image" content="https://www.fouroff.kr/images/web_icon.png">
+
+<!-- 파비콘 -->
+<link rel="icon" type="image/png" href="../images/web_icon.png">
+<link rel="apple-touch-icon" href="../images/web_icon.png">
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Pretendard','Apple SD Gothic Neo',sans-serif;background:#fff;color:#1d1d1f;-webkit-font-smoothing:antialiased;}
+  body{overflow-x:hidden;}
+  a{text-decoration:none;color:inherit;}
+  img{display:block;max-width:100%;}
+
+  /* 메인 NAV */
+  .main-nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:100;height:64px;display:flex;align-items:center;}
+  .nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center;width:100%;}
+  .nav-brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;letter-spacing:-.3px;cursor:pointer;}
+  .nav-brand img{width:26px;height:26px;}
+  .nav-menu{display:flex;gap:36px;}
+  .nav-menu a{font-size:14px;color:#515154;font-weight:500;cursor:pointer;transition:color .25s;position:relative;padding:6px 0;}
+  .nav-menu a:hover{color:#1d1d1f;}
+  .nav-menu a.active{color:#1d1d1f;font-weight:600;}
+  .nav-menu a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#1d1d1f;border-radius:1px;}
+
+  /* 서브탭 (sticky, 메인 NAV 바로 아래) */
+  .sub-nav{position:fixed;top:64px;left:0;right:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:99;}
+  .sub-inner{max-width:1200px;margin:0 auto;padding:14px 32px;display:flex;justify-content:center;gap:36px;}
+  .sub-tab{font-size:14px;color:#515154;font-weight:500;cursor:pointer;transition:color .25s;position:relative;padding:6px 0;}
+  .sub-tab:hover{color:#1d1d1f;}
+  .sub-tab.active{color:#1d1d1f;font-weight:600;}
+  .sub-tab.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#0066ff;border-radius:1px;}
+
+  /* 페이지 전체 fade-in */
+  .page-fade{opacity:0;transition:opacity .8s ease;}
+  .page-fade.in{opacity:1;}
+
+  /* 본문 컨테이너 (메인 NAV + 서브탭 높이 = 약 120px 띄움) */
+  .content{padding-top:120px;}
+
+  /* 탭 콘텐츠 (fade in/out 전환) */
+  .panel{display:none;opacity:0;transition:opacity .4s ease;min-height:80vh;padding:80px 32px;}
+  .panel.active{display:block;}
+  .panel.fade-in{opacity:1;}
+
+  /* 임시 본문 */
+  .placeholder{display:flex;align-items:center;justify-content:center;min-height:60vh;}
+  .placeholder h1{font-size:56px;font-weight:600;letter-spacing:-2px;color:#1d1d1f;}
+
+  /* ============ 포트폴리오 패널 ============ */
+  .portfolio-wrap{max-width:1100px;margin:0 auto;}
+
+  /* 섹션 1: 전자책 */
+  .ebook-section{padding:40px 0 120px;text-align:center;}
+  .ebook-tagline{font-size:14px;color:#0066ff;letter-spacing:2px;font-weight:600;margin-bottom:20px;}
+  .ebook-headline{font-size:48px;font-weight:600;letter-spacing:-1.8px;line-height:1.3;margin-bottom:60px;color:#1d1d1f;}
+  .ebook-headline .blue{color:#0066ff;}
+  .ebook-image{max-width:520px;margin:0 auto 28px;animation:ebookFloat 4s ease-in-out infinite;}
+  .ebook-image img{width:100%;display:block;filter:drop-shadow(0 30px 50px rgba(0,0,0,.12));}
+  @keyframes ebookFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .ebook-note{font-size:20px;color:#86868b;letter-spacing:.3px;font-weight:500;line-height:1.5;}
+  .ebook-note .blue{color:#0066ff;font-weight:700;}
+
+  /* 섹션 구분 */
+  .portfolio-divider{padding:80px 0 60px;text-align:center;border-top:.5px solid #e8e8ed;}
+  .portfolio-divider .doubt{font-size:36px;font-weight:600;letter-spacing:-1.3px;color:#1d1d1f;margin-bottom:14px;line-height:1.2;}
+  .portfolio-divider .doubt .blue{color:#0066ff;}
+  .portfolio-divider .verify{font-size:20px;color:#86868b;letter-spacing:.3px;font-weight:500;line-height:1.5;}
+
+  /* 섹션 2: 앱 마퀴 */
+  .apps-marquee-wrap{padding:0 0 80px;position:relative;overflow:hidden;mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);-webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);}
+  .apps-marquee{display:flex;gap:18px;width:max-content;animation:marqueeScroll 60s linear infinite;}
+  .apps-marquee:hover{animation-play-state:paused;}
+  @keyframes marqueeScroll{
+    0% {transform:translateX(0);}
+    100% {transform:translateX(-50%);}
+  }
+  .app-tile{flex-shrink:0;width:80px;height:80px;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 8px 20px rgba(0,0,0,.08);transition:all .3s ease;cursor:pointer;}
+  .app-tile:hover{transform:translateY(-6px) scale(1.08);box-shadow:0 16px 30px rgba(0,0,0,.18);}
+  .app-tile img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  /* 두 번째 줄 마퀴 (반대 방향) */
+  .apps-marquee.reverse{animation:marqueeScrollReverse 70s linear infinite;margin-top:18px;}
+  .apps-marquee.reverse:hover{animation-play-state:paused;}
+  @keyframes marqueeScrollReverse{
+    0% {transform:translateX(-50%);}
+    100% {transform:translateX(0);}
+  }
+
+  /* 4줄 — 각 줄 속도 다르게 */
+  #appsRow1{animation-duration:65s;}
+  #appsRow2{animation-duration:75s;margin-top:18px;}
+  #appsRow3{animation-duration:55s;margin-top:18px;}
+  #appsRow4{animation-duration:80s;margin-top:18px;}
+
+  /* ============ 개발자 패널 ============ */
+  .about-wrap{max-width:1100px;margin:0 auto;padding:20px 0 80px;}
+  .about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start;}
+
+  /* 좌측 사진 */
+  .about-photo{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.15);}
+  .about-photo img{width:100%;display:block;}
+  .about-photo .photo-tag{position:absolute;bottom:20px;left:20px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 16px;border-radius:980px;font-size:12px;font-weight:600;color:#1d1d1f;letter-spacing:.3px;}
+  .about-photo .photo-tag .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:8px;animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+  /* 우측 텍스트 */
+  .about-text{}
+  .about-text .tag{font-size:13px;color:#0066ff;letter-spacing:2px;font-weight:600;margin-bottom:18px;}
+  .about-name{font-size:56px;font-weight:600;letter-spacing:-2px;line-height:1.15;margin-bottom:32px;color:#1d1d1f;}
+  .about-name .blue{color:#0066ff;}
+  .about-text .intro{font-size:17px;color:#515154;line-height:1.8;margin-bottom:30px;}
+  .about-text .intro b{color:#1d1d1f;font-weight:600;}
+  .about-text .intro .blue{color:#0066ff;font-weight:600;}
+
+  /* 인용 박스 - 회색 + 이탤릭 + 살짝 사선 */
+  .about-quote{margin-top:40px;text-align:left;}
+  .about-quote p{font-size:18px;color:#9ca3af;line-height:1.6;font-style:italic;font-weight:400;margin:0;letter-spacing:.3px;transform:skewX(-6deg);display:inline-block;}
+
+  @media(max-width:900px){
+    .about-grid{grid-template-columns:1fr;gap:40px;}
+  }
+  @media(max-width:768px){
+    .about-wrap{padding:20px 0 60px;}
+    .about-grid{gap:32px;}
+    .about-name{font-size:38px;letter-spacing:-1.4px;margin-bottom:24px;}
+    .about-text .intro{font-size:15px;}
+    .about-quote{margin-top:28px;}
+    .about-quote p{font-size:15px;}
+  }
+  .algo-wrap{max-width:1100px;margin:0 auto;}
+
+  /* Hero */
+  .algo-hero{text-align:center;padding:40px 0 100px;border-bottom:.5px solid #e8e8ed;margin-bottom:100px;}
+  .algo-hero .tag{font-size:12px;color:#0066ff;letter-spacing:2.5px;font-weight:600;margin-bottom:18px;}
+  .algo-hero h1{font-size:64px;font-weight:600;letter-spacing:-2.4px;line-height:1.25;margin-bottom:24px;color:#1d1d1f;}
+  .algo-hero h1 .blue{color:#0066ff;}
+  .algo-hero .sub{font-size:18px;color:#515154;line-height:1.65;max-width:600px;margin:0 auto 56px;}
+  .algo-stats{display:flex;justify-content:center;gap:60px;flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat .num{font-size:48px;font-weight:700;letter-spacing:-2px;color:#0066ff;line-height:1;}
+  .stat .label{font-size:13px;color:#86868b;letter-spacing:.5px;margin-top:10px;}
+
+  /* 각 룰 섹션 */
+  .rule-section{margin-bottom:140px;}
+  .rule-section:last-child{margin-bottom:80px;}
+  .rule-head{margin-bottom:24px;}
+  .rule-head .ko-name{font-size:13px;color:#0066ff;letter-spacing:2px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+  .rule-head .ko-name::before{content:"";width:24px;height:1px;background:#0066ff;}
+  .rule-head h2{font-size:48px;font-weight:600;letter-spacing:-1.8px;line-height:1.1;margin-bottom:12px;color:#1d1d1f;}
+  .rule-head h2 .tech-name{font-size:24px;color:#86868b;font-weight:400;letter-spacing:-.5px;margin-left:10px;}
+  .rule-head .lead{font-size:17px;color:#515154;line-height:1.7;max-width:680px;}
+
+  .rule-body{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:start;}
+  .rule-text p{font-size:15px;color:#424245;line-height:1.85;margin-bottom:8px;}
+  .rule-text p:last-of-type{margin-bottom:16px;}
+  .rule-text p b{color:#0066ff;font-weight:600;}
+  .rule-text ul{list-style:none;padding:0;margin:24px 0;}
+  .rule-text li{font-size:14px;color:#424245;padding:10px 0 10px 24px;position:relative;line-height:1.6;}
+  .rule-text li::before{content:"";position:absolute;left:0;top:18px;width:8px;height:8px;background:#0066ff;border-radius:50%;}
+  .rule-text .highlight{background:#f0f7ff;padding:16px 20px;border-radius:12px;border-left:3px solid #0066ff;margin-top:24px;font-size:14px;color:#1d1d1f;line-height:1.7;}
+  .rule-text .highlight b{color:#0066ff;}
+
+  /* 데모 박스 (정적 시각화) */
+  .demo-box{background:#fafafa;border-radius:20px;padding:32px;border:.5px solid #e8e8ed;}
+  .demo-label{font-size:11px;color:#86868b;letter-spacing:1.5px;font-weight:600;margin-bottom:20px;}
+
+  /* ============ 3D 큐브 데모 (z_rule) ============ */
+  .cube-stage{perspective:1000px;padding:40px 0 20px;display:flex;justify-content:center;}
+  .cube-track{display:flex;gap:14px;position:relative;}
+  .cube-cell{width:54px;height:54px;transform-style:preserve-3d;position:relative;animation:cubeFloat 4s ease-in-out infinite;filter:drop-shadow(0 12px 18px rgba(0,0,0,.12));}
+  .cube-cell:nth-child(1){animation-delay:0s;}
+  .cube-cell:nth-child(2){animation-delay:.2s;}
+  .cube-cell:nth-child(3){animation-delay:.4s;}
+  .cube-cell:nth-child(4){animation-delay:.6s;}
+  .cube-cell:nth-child(5){animation-delay:.8s;}
+  .cube-cell:nth-child(6){animation-delay:1.0s;}
+  .cube-cell:nth-child(7){animation-delay:1.2s;}
+  @keyframes cubeFloat{
+    0% {transform:translateY(0) rotateY(0deg) rotateX(-15deg);}
+    50% {transform:translateY(-14px) rotateY(180deg) rotateX(-15deg);}
+    100% {transform:translateY(0) rotateY(360deg) rotateX(-15deg);}
+  }
+
+  .cube-cell .face{position:absolute;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;border-radius:8px;border:1px solid #e8e8ed;}
+  .cube-cell .front{transform:translateZ(27px);background:#fff;}
+  .cube-cell .back{transform:translateZ(-27px) rotateY(180deg);background:#f5f5f7;}
+  .cube-cell .right{transform:rotateY(90deg) translateZ(27px);background:#fafafa;}
+  .cube-cell .left{transform:rotateY(-90deg) translateZ(27px);background:#f0f0f3;}
+  .cube-cell .top{transform:rotateX(90deg) translateZ(27px);background:#fcfcfd;}
+  .cube-cell .bottom{transform:rotateX(-90deg) translateZ(27px);background:#e8e8ed;}
+
+  /* 듀티 글자 색 */
+  .cube-cell .face.d{color:#ea580c;}
+  .cube-cell .face.e{color:#0066ff;}
+  .cube-cell .face.n{color:#1d1d1f;}
+  .cube-cell .face.x{color:#64748b;}
+
+  /* 위험 표시 - 빨간 깜빡 */
+  .cube-cell.warn{animation:cubeWarn 4s ease-in-out infinite;}
+  .cube-cell.warn:nth-child(1){animation-delay:1.5s;}
+  .cube-cell.warn:nth-child(2){animation-delay:1.6s;}
+  .cube-cell.warn:nth-child(3){animation-delay:1.7s;}
+  @keyframes cubeWarn{
+    0% {transform:translateY(0) rotateY(0deg) rotateX(-15deg);filter:drop-shadow(0 14px 20px rgba(220,38,38,.5));}
+    50% {transform:translateY(-14px) rotateY(180deg) rotateX(-15deg);filter:drop-shadow(0 14px 24px rgba(220,38,38,.7));}
+    55% {transform:translateY(-12px) rotateY(180deg) rotateX(-15deg) rotateZ(-6deg);}
+    65% {transform:translateY(-12px) rotateY(180deg) rotateX(-15deg) rotateZ(6deg);}
+    75% {transform:translateY(-12px) rotateY(180deg) rotateX(-15deg) rotateZ(-4deg);}
+    100% {transform:translateY(0) rotateY(360deg) rotateX(-15deg);filter:drop-shadow(0 14px 20px rgba(220,38,38,.5));}
+  }
+  .cube-cell.warn .face{transition:all .3s;}
+
+  /* 스캐너 (3일 윈도우) */
+  .scanner-wrap{position:relative;display:inline-block;padding:14px 0;}
+  .scanner{position:absolute;top:-6px;bottom:-6px;width:184px;border:2px solid #0066ff;border-radius:14px;background:rgba(0,102,255,.04);box-shadow:0 0 28px rgba(0,102,255,.18);animation:scanMove 7s ease-in-out infinite;pointer-events:none;z-index:2;}
+  @keyframes scanMove{
+    0%, 100% {left:0;}
+    50% {left:calc(100% - 184px);}
+  }
+  .scan-label{position:absolute;top:-32px;font-size:10px;color:#0066ff;letter-spacing:2px;font-weight:700;animation:scanMove 7s ease-in-out infinite;z-index:3;}
+
+  /* 알림 라벨 */
+  .demo-alerts{display:flex;justify-content:center;gap:16px;margin-top:32px;font-size:12px;color:#86868b;flex-wrap:wrap;}
+  .alert-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:980px;background:#fff;border:1px solid #e8e8ed;}
+  .alert-tag .dot{width:6px;height:6px;border-radius:50%;background:#0066ff;}
+  .alert-tag.warn .dot{background:#dc2626;}
+  .alert-tag.ok .dot{background:#16a34a;}
+
+  /* ============ mx_rule: 큐브 + 임계 라인 ============ */
+  .mx-stage{perspective:1000px;padding:30px 0;display:flex;flex-direction:column;align-items:center;gap:24px;}
+  .mx-cubes{display:flex;gap:14px;}
+  .mx-cube{width:54px;height:54px;transform-style:preserve-3d;position:relative;animation:cubeFloat 4s ease-in-out infinite;filter:drop-shadow(0 12px 18px rgba(0,0,0,.12));}
+  .mx-cube:nth-child(1){animation-delay:0s;}
+  .mx-cube:nth-child(2){animation-delay:.2s;}
+  .mx-cube:nth-child(3){animation-delay:.4s;}
+  .mx-cube:nth-child(4){animation-delay:.6s;}
+  .mx-cube:nth-child(5){animation-delay:.8s;}
+
+  .mx-cube .face{position:absolute;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;border-radius:8px;border:1px solid #e8e8ed;color:#0066ff;}
+  .mx-cube .front{transform:translateZ(27px);background:#fff;}
+  .mx-cube .back{transform:translateZ(-27px) rotateY(180deg);background:#f5f5f7;}
+  .mx-cube .right{transform:rotateY(90deg) translateZ(27px);background:#fafafa;}
+  .mx-cube .left{transform:rotateY(-90deg) translateZ(27px);background:#f0f0f3;}
+  .mx-cube .top{transform:rotateX(90deg) translateZ(27px);background:#fcfcfd;}
+  .mx-cube .bottom{transform:rotateX(-90deg) translateZ(27px);background:#e8e8ed;}
+
+  /* 임계 초과 큐브 (5번째) */
+  .mx-cube.over{animation:cubeOver 4s ease-in-out infinite;animation-delay:.8s;}
+  @keyframes cubeOver{
+    0% {transform:translateY(0) rotateY(0deg) rotateX(-15deg);filter:drop-shadow(0 14px 20px rgba(220,38,38,.5));}
+    40% {transform:translateY(-14px) rotateY(180deg) rotateX(-15deg);filter:drop-shadow(0 14px 24px rgba(220,38,38,.7));}
+    50%, 70% {transform:translateY(-12px) rotateY(180deg) rotateX(-15deg) rotateZ(-6deg);}
+    55%, 75% {transform:translateY(-12px) rotateY(180deg) rotateX(-15deg) rotateZ(6deg);}
+    100% {transform:translateY(0) rotateY(360deg) rotateX(-15deg);filter:drop-shadow(0 14px 20px rgba(220,38,38,.5));}
+  }
+  .mx-cube.over .face{color:#dc2626;background:#fef2f2;border-color:#fecaca;}
+  .mx-cube.over .back{background:#fef2f2;}
+  .mx-cube.over .right{background:#fef2f2;}
+  .mx-cube.over .left{background:#fef2f2;}
+  .mx-cube.over .top{background:#fef2f2;}
+  .mx-cube.over .bottom{background:#fee2e2;}
+
+  /* 임계 라인 (점선) */
+  .mx-threshold{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:340px;font-size:11px;color:#86868b;letter-spacing:.5px;font-weight:600;position:relative;padding-top:14px;border-top:1.5px dashed #e8e8ed;}
+  .mx-threshold .limit-mark{position:absolute;left:80%;top:-6px;width:1px;height:12px;background:#dc2626;}
+  .mx-threshold .limit-label{position:absolute;left:80%;top:-30px;transform:translateX(-50%);font-size:10px;color:#dc2626;font-weight:700;letter-spacing:1px;white-space:nowrap;}
+
+  /* ============ fc_rule: 큐브 평탄화 (Before / After) ============ */
+  .fc-stage{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;perspective:1000px;padding:20px 0;}
+  .fc-side{text-align:center;}
+  .fc-side h6{font-size:10px;color:#86868b;letter-spacing:1.5px;font-weight:700;margin-bottom:24px;}
+  .fc-side.after h6{color:#0066ff;}
+  .fc-cubes-col{display:flex;flex-direction:column-reverse;gap:6px;align-items:center;min-height:200px;justify-content:flex-start;}
+  .fc-cube-stack{display:flex;flex-direction:column-reverse;gap:4px;align-items:center;}
+  .fc-cube{width:32px;height:32px;transform-style:preserve-3d;position:relative;filter:drop-shadow(0 4px 6px rgba(0,0,0,.08));animation:cubeFloatSmall 5s ease-in-out infinite;}
+  @keyframes cubeFloatSmall{
+    0% {transform:translateY(0) rotateY(0deg) rotateX(-12deg);}
+    50% {transform:translateY(-5px) rotateY(180deg) rotateX(-12deg);}
+    100% {transform:translateY(0) rotateY(360deg) rotateX(-12deg);}
+  }
+  .fc-cube .face{position:absolute;width:32px;height:32px;border-radius:5px;border:1px solid #fecaca;background:#fef2f2;}
+  .fc-cube .front{transform:translateZ(16px);}
+  .fc-cube .back{transform:translateZ(-16px) rotateY(180deg);background:#fef2f2;}
+  .fc-cube .right{transform:rotateY(90deg) translateZ(16px);background:#fee2e2;}
+  .fc-cube .left{transform:rotateY(-90deg) translateZ(16px);background:#fee2e2;}
+  .fc-cube .top{transform:rotateX(90deg) translateZ(16px);background:#fef2f2;}
+  .fc-cube .bottom{transform:rotateX(-90deg) translateZ(16px);background:#fecaca;}
+
+  /* Before 측 빨간 그림자 (z/mx warn 톤이랑 일치) */
+  .fc-side .fc-cube{filter:drop-shadow(0 4px 8px rgba(220,38,38,.2));}
+
+  /* After 큐브는 파란 톤 + 파란 글로우 */
+  .fc-side.after .fc-cube{filter:drop-shadow(0 4px 10px rgba(0,102,255,.3));}
+  .fc-side.after .fc-cube .face{border-color:#bfdbfe;background:#eff6ff;}
+  .fc-side.after .fc-cube .back{background:#eff6ff;}
+  .fc-side.after .fc-cube .right{background:#dbeafe;}
+  .fc-side.after .fc-cube .left{background:#dbeafe;}
+  .fc-side.after .fc-cube .top{background:#bfdbfe;}
+  .fc-side.after .fc-cube .bottom{background:#dbeafe;}
+
+  /* 각 스택 내 큐브 딜레이 (파도 효과) */
+  .fc-cube:nth-child(1){animation-delay:0s;}
+  .fc-cube:nth-child(2){animation-delay:.1s;}
+  .fc-cube:nth-child(3){animation-delay:.2s;}
+  .fc-cube:nth-child(4){animation-delay:.3s;}
+  .fc-cube:nth-child(5){animation-delay:.4s;}
+
+  .fc-person{font-size:11px;color:#86868b;font-weight:600;margin-top:8px;}
+  .fc-count{font-size:11px;color:#dc2626;font-weight:700;margin-top:2px;}
+  .fc-side.after .fc-count{color:#0066ff;}
+
+  .fc-persons{display:flex;gap:14px;justify-content:center;align-items:flex-end;}
+  .fc-person-col{display:flex;flex-direction:column;align-items:center;}
+
+  .fc-arrow{font-size:24px;color:#cbd5e1;font-weight:300;animation:arrowPulse 2s ease-in-out infinite;}
+  @keyframes arrowPulse{
+    0%, 100% {transform:translateX(0);opacity:.5;}
+    50% {transform:translateX(6px);opacity:1;}
+  }
+
+  /* ============ 통합 흐름도: 큐브 파이프라인 ============ */
+  .flow-pipeline{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:20px 0 40px;perspective:1200px;}
+  .pipe-step{display:flex;flex-direction:column;align-items:center;gap:18px;min-width:140px;}
+  .pipe-cube{width:64px;height:64px;transform-style:preserve-3d;position:relative;animation:cubeWobble 5s ease-in-out infinite;}
+  .pipe-cube .face{position:absolute;width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;border-radius:8px;border:1px solid #e8e8ed;}
+  .pipe-cube .front{transform:translateZ(32px);background:#fff;color:#1d1d1f;}
+  .pipe-cube .back{transform:translateZ(-32px) rotateY(180deg);background:#f5f5f7;}
+  .pipe-cube .right{transform:rotateY(90deg) translateZ(32px);background:#d1d5db;}
+  .pipe-cube .left{transform:rotateY(-90deg) translateZ(32px);background:#fafafa;}
+  .pipe-cube .top{transform:rotateX(90deg) translateZ(32px);background:#fcfcfd;}
+  .pipe-cube .bottom{transform:rotateX(-90deg) translateZ(32px);background:#9ca3af;}
+  .pipe-cube::after{content:'';position:absolute;bottom:-22px;left:5%;width:90%;height:10px;background:radial-gradient(ellipse at center, rgba(0,0,0,.18), transparent 70%);animation:cubeShadow 5s ease-in-out infinite;z-index:-1;}
+
+  @keyframes cubeWobble{
+    0%, 100% { transform: rotateX(-20deg) rotateY(-30deg) translateY(0); }
+    25%      { transform: rotateX(-20deg) rotateY(-20deg) translateY(-6px); }
+    50%      { transform: rotateX(-20deg) rotateY(-30deg) translateY(-12px); }
+    75%      { transform: rotateX(-20deg) rotateY(-40deg) translateY(-6px); }
+  }
+  @keyframes cubeShadow{
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(.7); opacity: .5; }
+  }
+
+  /* INPUT 큐브: 검정 */
+  /* INPUT 큐브: 검정 (옆면 더 어두워서 입체감 ↑) */
+  .pipe-step.input .pipe-cube .front{background:#1d1d1f;color:#fff;border-color:#1d1d1f;}
+  .pipe-step.input .pipe-cube .back{background:#2a2a2c;}
+  .pipe-step.input .pipe-cube .right{background:#0a0a0e;}
+  .pipe-step.input .pipe-cube .left{background:#1a1a1c;}
+  .pipe-step.input .pipe-cube .top{background:#2a2a2c;}
+  .pipe-step.input .pipe-cube .bottom{background:#000;}
+
+  /* OUTPUT 큐브: 파랑 (옆면 진해서 입체감 ↑) */
+  .pipe-step.output .pipe-cube .front{background:#0066ff;color:#fff;border-color:#0066ff;}
+  .pipe-step.output .pipe-cube .back{background:#1e40af;}
+  .pipe-step.output .pipe-cube .right{background:#1e40af;}
+  .pipe-step.output .pipe-cube .left{background:#3b82f6;}
+  .pipe-step.output .pipe-cube .top{background:#3b82f6;}
+  .pipe-step.output .pipe-cube .bottom{background:#1e3a8a;}
+
+  .pipe-label{text-align:center;}
+  .pipe-label .label-tag{font-size:9px;color:#86868b;letter-spacing:1.5px;font-weight:700;margin-bottom:4px;}
+  .pipe-label .label-name{font-size:13px;color:#1d1d1f;font-weight:700;}
+  .pipe-label .label-desc{font-size:11px;color:#86868b;margin-top:2px;line-height:1.4;}
+
+  .pipe-arrow{font-size:18px;color:#cbd5e1;animation:arrowPulse 2s ease-in-out infinite;font-weight:300;}
+
+  /* 파이프 큐브 딜레이 (파도 효과) */
+  .pipe-step:nth-child(1) .pipe-cube{animation-delay:0s;}
+  .pipe-step:nth-child(3) .pipe-cube{animation-delay:.3s;}
+  .pipe-step:nth-child(5) .pipe-cube{animation-delay:.6s;}
+  .pipe-step:nth-child(7) .pipe-cube{animation-delay:.9s;}
+  .pipe-step:nth-child(9) .pipe-cube{animation-delay:1.2s;}
+
+  /* 통합 흐름도 섹션 */
+  .flow-section{background:#fafafa;border-radius:24px;padding:60px 40px;margin-top:40px;}
+  .flow-section h3{font-size:32px;font-weight:600;letter-spacing:-1px;text-align:center;margin-bottom:48px;}
+  .flow-section h3 .blue{color:#0066ff;}
+
+  @media(max-width:900px){
+    .rule-body{grid-template-columns:1fr;gap:32px;}
+    .flow-pipeline{flex-direction:column;}
+    .pipe-arrow{transform:rotate(90deg);}
+    .fc-stage{grid-template-columns:1fr;gap:32px;}
+    .fc-arrow{transform:rotate(90deg);}
+  }
+
+  /* footer */
+  .footer{padding:48px 32px;background:#fafafa;border-top:.5px solid #e8e8ed;text-align:center;font-size:12px;color:#86868b;}
+  .footer a{color:inherit;text-decoration:none;transition:color .2s;}
+  .footer a:hover{color:#1d1d1f;}
+
+  /* balloon */
+  .balloon{position:fixed;right:24px;bottom:24px;background:#1d1d1f;color:#fff;padding:16px 26px 16px 22px;border-radius:980px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:12px;box-shadow:0 0 12px rgba(255,215,0,.15), 0 16px 44px rgba(0,0,0,.32);cursor:pointer;z-index:90;animation:balloonFloat 3s ease-in-out infinite;text-decoration:none;transition:box-shadow .4s ease;}
+  .balloon:hover{box-shadow:0 0 30px rgba(255,215,0,.5), 0 16px 44px rgba(0,0,0,.32);}
+  .balloon .star{color:#fbbf24;font-size:15px;}
+  .balloon .arrow{font-size:15px;margin-left:3px;color:#fff;}
+  @keyframes balloonFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+  @media(max-width:768px){
+    .nav-inner{padding:0 20px;}
+    .nav-menu{gap:20px;}
+    .nav-menu a{font-size:12px;}
+    .main-nav{height:56px;}
+    .sub-nav{top:56px;}
+    .sub-inner{padding:10px 20px;gap:24px;}
+    .sub-tab{font-size:12px;}
+    .content{padding-top:104px;}
+    .panel{padding:40px 16px;}
+    .placeholder h1{font-size:32px;letter-spacing:-1.3px;}
+
+    /* 알고리즘 hero */
+    .algo-hero{padding:20px 0 60px;margin-bottom:60px;}
+    .algo-hero h1{font-size:32px;letter-spacing:-1.3px;line-height:1.3;}
+    .algo-hero .sub{font-size:14px;}
+    .algo-stats{gap:24px;}
+    .stat .num{font-size:28px;}
+
+    /* 룰 섹션 */
+    .rule-section{margin-bottom:60px;}
+    .rule-head h2{font-size:28px;letter-spacing:-1.1px;}
+    .rule-head h2 .tech-name{font-size:14px;display:block;margin-left:0;margin-top:4px;}
+    .rule-head .lead{font-size:14px;}
+    .rule-text p{font-size:14px;}
+    .rule-text .highlight{font-size:13px;padding:14px 16px;}
+
+    /* 데모 박스 모바일: 큐브 작게 + 간격 좁게 */
+    .demo-box{padding:20px 12px;overflow:hidden;}
+    .demo-label{font-size:10px;letter-spacing:1px;}
+
+    /* z_rule 모바일 큐브 */
+    .cube-stage{padding:30px 0 16px;}
+    .cube-track{gap:8px;}
+    .cube-cell{width:36px;height:36px;}
+    .cube-cell .face{width:36px;height:36px;font-size:14px;border-radius:6px;}
+    .cube-cell .front{transform:translateZ(18px);}
+    .cube-cell .back{transform:translateZ(-18px) rotateY(180deg);}
+    .cube-cell .right{transform:rotateY(90deg) translateZ(18px);}
+    .cube-cell .left{transform:rotateY(-90deg) translateZ(18px);}
+    .cube-cell .top{transform:rotateX(90deg) translateZ(18px);}
+    .cube-cell .bottom{transform:rotateX(-90deg) translateZ(18px);}
+    .scanner{width:128px;border-radius:10px;}
+    @keyframes scanMoveM{
+      0%, 100% {left:0;}
+      50% {left:calc(100% - 128px);}
+    }
+    .scanner{animation-name:scanMoveM;}
+    .scan-label{animation-name:scanMoveM;font-size:9px;}
+
+    /* mx_rule 모바일 큐브 */
+    .mx-cubes{gap:8px;}
+    .mx-cube{width:36px;height:36px;}
+    .mx-cube .face{width:36px;height:36px;font-size:14px;border-radius:6px;}
+    .mx-cube .front{transform:translateZ(18px);}
+    .mx-cube .back{transform:translateZ(-18px) rotateY(180deg);}
+    .mx-cube .right{transform:rotateY(90deg) translateZ(18px);}
+    .mx-cube .left{transform:rotateY(-90deg) translateZ(18px);}
+    .mx-cube .top{transform:rotateX(90deg) translateZ(18px);}
+    .mx-cube .bottom{transform:rotateX(-90deg) translateZ(18px);}
+    .mx-threshold{max-width:240px;font-size:10px;}
+    .mx-threshold .limit-label{font-size:9px;}
+
+    /* fc_rule 모바일 큐브 */
+    .fc-stage{grid-template-columns:1fr;gap:24px;padding:10px 0;}
+    .fc-arrow{transform:rotate(90deg);margin-bottom:0;align-self:center;font-size:22px;}
+    .fc-persons{gap:10px;}
+    .fc-cube{width:24px;height:24px;}
+    .fc-cube .face{width:24px;height:24px;}
+    .fc-cube .front{transform:translateZ(12px);}
+    .fc-cube .back{transform:translateZ(-12px) rotateY(180deg);}
+    .fc-cube .right{transform:rotateY(90deg) translateZ(12px);}
+    .fc-cube .left{transform:rotateY(-90deg) translateZ(12px);}
+    .fc-cube .top{transform:rotateX(90deg) translateZ(12px);}
+    .fc-cube .bottom{transform:rotateX(-90deg) translateZ(12px);}
+    .fc-cube-stack{min-height:140px;gap:3px;}
+
+    /* 알림 태그 */
+    .demo-alerts{gap:10px;margin-top:24px;}
+    .alert-tag{font-size:11px;padding:5px 10px;}
+
+    /* 통합 흐름도 */
+    .flow-section{padding:40px 16px;}
+    .flow-section h3{font-size:22px;letter-spacing:-.8px;margin-bottom:30px;}
+    .flow-pipeline{gap:12px;padding:10px 0 20px;}
+    .pipe-step{min-width:auto;width:100%;flex-direction:row;justify-content:flex-start;gap:20px;}
+    .pipe-cube{width:40px;height:40px;flex-shrink:0;}
+    .pipe-cube .face{width:40px;height:40px;font-size:12px;}
+    .pipe-cube .front{transform:translateZ(20px);}
+    .pipe-cube .back{transform:translateZ(-20px) rotateY(180deg);}
+    .pipe-cube .right{transform:rotateY(90deg) translateZ(20px);}
+    .pipe-cube .left{transform:rotateY(-90deg) translateZ(20px);}
+    .pipe-cube .top{transform:rotateX(90deg) translateZ(20px);}
+    .pipe-cube .bottom{transform:rotateX(-90deg) translateZ(20px);}
+    .pipe-label{text-align:left;}
+    .pipe-arrow{transform:rotate(90deg);align-self:center;}
+
+    .balloon{right:16px;bottom:16px;padding:14px 22px 14px 18px;font-size:13px;}
+
+    /* 포트폴리오 */
+    .ebook-section{padding:30px 0 80px;}
+    .ebook-tagline{font-size:11px;letter-spacing:1.5px;margin-bottom:14px;}
+    .ebook-headline{font-size:24px;letter-spacing:-1px;line-height:1.4;margin-bottom:40px;}
+    .ebook-image{max-width:300px;margin-bottom:22px;}
+    .ebook-note{font-size:15px;}
+
+    .portfolio-divider{padding:50px 0 40px;}
+    .portfolio-divider .doubt{font-size:22px;letter-spacing:-.8px;margin-bottom:8px;line-height:1.3;}
+    .portfolio-divider .verify{font-size:15px;}
+
+    .apps-marquee-wrap{padding:0 0 50px;mask-image:linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);-webkit-mask-image:linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);}
+    .apps-marquee{gap:10px;}
+    .apps-marquee.reverse{margin-top:10px;}
+    .app-tile{width:56px;height:56px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+    .app-tile:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 16px rgba(0,0,0,.15);}
+
+    #appsRow1{animation-duration:50s;}
+    #appsRow2{animation-duration:60s;margin-top:10px;}
+    #appsRow3{animation-duration:45s;margin-top:10px;}
+    #appsRow4{animation-duration:65s;margin-top:10px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- 메인 NAV -->
+<nav class="main-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <span>FOUR OFF</span>
+    </a>
+    <div class="nav-menu">
+      <a href="../index.html">앱</a>
+      <a href="custom.html">맞춤제작</a>
+      <a href="developer.html" class="active">개발자</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 서브탭 (sticky) -->
+<nav class="sub-nav">
+  <div class="sub-inner">
+    <a class="sub-tab active" data-panel="portfolio">포트폴리오</a>
+    <a class="sub-tab" data-panel="algorithm">알고리즘</a>
+    <a class="sub-tab" data-panel="about">개발자</a>
+  </div>
+</nav>
+
+<!-- 페이지 전체 fade-in -->
+<div class="page-fade" id="pageFade">
+
+  <div class="content">
+
+    <!-- 포트폴리오 (기본 활성) -->
+    <section class="panel active fade-in" id="portfolio">
+      <div class="portfolio-wrap">
+
+        <!-- 섹션 1: 전자책 -->
+        <div class="ebook-section">
+          <div class="ebook-tagline">FROM ONE DEVELOPER</div>
+          <h2 class="ebook-headline">1년에 1개 만들기도 벅찬 앱<br><span class="blue">저는 49개 운영합니다</span></h2>
+          <div class="ebook-image">
+            <img src="../images/web_book.webp" alt="49 APPS, SOLO 전자책">
+          </div>
+          <p class="ebook-note">49개를 만든 이야기<br>현재 <span class="blue">AMAZON</span> 에서 판매 중</p>
+        </div>
+
+        <!-- 구분 + 의심 카피 -->
+        <div class="portfolio-divider">
+          <p class="doubt">정확히 49개<br><span class="blue">직접 확인하세요</span></p>
+          <p class="verify">아이콘을 누르면<br>스토어로 이동합니다</p>
+        </div>
+
+        <!-- 섹션 2: 앱 마퀴 (4줄, 지그재그 방향) -->
+        <div class="apps-marquee-wrap">
+          <div class="apps-marquee" id="appsRow1"></div>
+          <div class="apps-marquee reverse" id="appsRow2"></div>
+          <div class="apps-marquee" id="appsRow3"></div>
+          <div class="apps-marquee reverse" id="appsRow4"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 알고리즘 -->
+    <section class="panel" id="algorithm">
+      <div class="algo-wrap">
+
+        <!-- Hero -->
+        <div class="algo-hero">
+          <div class="tag">RULE SYSTEM</div>
+          <h1>3대 룰 시스템<br><span class="blue">현장에서 직접 설계</span></h1>
+          <p class="sub">제약 만족 문제(CSP) 기반 자동 솔버<br>Google OR-Tools CP-SAT 엔진 기반</p>
+          <div class="algo-stats">
+            <div class="stat">
+              <div class="num">3+</div>
+              <div class="label">RULES</div>
+            </div>
+            <div class="stat">
+              <div class="num">64+</div>
+              <div class="label">PATTERNS</div>
+            </div>
+            <div class="stat">
+              <div class="num">10s</div>
+              <div class="label">SOLVE TIME</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. z_rule -->
+        <div class="rule-section">
+          <div class="rule-head">
+            <div class="ko-name">근무 흐름 룰</div>
+            <h2>Z RULE<span class="tech-name">Zone Based Rule</span></h2>
+            <p class="lead">N-gram 슬라이딩 윈도우 패턴 매칭</p>
+          </div>
+
+          <div class="rule-body">
+            <div class="rule-text">
+              <p>듀티 시퀀스를 4진법(Base-4)으로 인코딩하여<br>N일 슬라이딩 윈도우 단위로 <b>4ⁿ 패턴 공간</b>을 탐색합니다</p>
+              <p>각 패턴마다 사전 정의된 <b>룩업 테이블</b>이 다음 듀티의 도메인을 제약합니다</p>
+              <ul>
+                <li>3일 윈도우 → 4³ = 64 패턴</li>
+                <li>4일 윈도우 → 4⁴ = 256 패턴</li>
+                <li>5일 윈도우 → 4⁵ = 1,024 패턴</li>
+              </ul>
+            </div>
+
+            <div class="demo-box">
+              <div class="demo-label">PATTERN CHECK · 3-DAY WINDOW</div>
+              <div class="cube-stage">
+                <div class="scanner-wrap">
+                  <div class="scan-label">SCANNING</div>
+                  <div class="cube-track">
+                    <div class="cube-cell warn"><div class="face front d">D</div><div class="face back e">E</div><div class="face right n">N</div><div class="face left x">X</div><div class="face top d">D</div><div class="face bottom n">N</div></div>
+                    <div class="cube-cell warn"><div class="face front d">D</div><div class="face back e">E</div><div class="face right n">N</div><div class="face left x">X</div><div class="face top d">D</div><div class="face bottom n">N</div></div>
+                    <div class="cube-cell warn"><div class="face front d">D</div><div class="face back x">X</div><div class="face right e">E</div><div class="face left n">N</div><div class="face top d">D</div><div class="face bottom x">X</div></div>
+                    <div class="cube-cell"><div class="face front x">X</div><div class="face back d">D</div><div class="face right e">E</div><div class="face left n">N</div><div class="face top x">X</div><div class="face bottom d">D</div></div>
+                    <div class="cube-cell"><div class="face front e">E</div><div class="face back n">N</div><div class="face right d">D</div><div class="face left x">X</div><div class="face top e">E</div><div class="face bottom n">N</div></div>
+                    <div class="cube-cell"><div class="face front n">N</div><div class="face back d">D</div><div class="face right e">E</div><div class="face left x">X</div><div class="face top n">N</div><div class="face bottom d">D</div></div>
+                    <div class="cube-cell"><div class="face front x">X</div><div class="face back d">D</div><div class="face right e">E</div><div class="face left n">N</div><div class="face top x">X</div><div class="face bottom d">D</div></div>
+                  </div>
+                  <div class="scanner"></div>
+                </div>
+              </div>
+              <div class="demo-alerts">
+                <span class="alert-tag warn"><span class="dot"></span>D-D-D 연속 위험</span>
+                <span class="alert-tag ok"><span class="dot"></span>X 강제 → 휴식 보장</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. mx_rule -->
+        <div class="rule-section">
+          <div class="rule-head">
+            <div class="ko-name">운영 안전 룰</div>
+            <h2>MX RULE<span class="tech-name">Max Constrain Rule</span></h2>
+            <p class="lead">정수 선형 계획법(ILP) 기반 상한 제약</p>
+          </div>
+
+          <div class="rule-body">
+            <div class="rule-text">
+              <p>Upper Bound 제약과 <b>Min-Max Equality</b> (max − min ≤ 1)<br>기반 워크로드 균등화를 보장합니다</p>
+              <p>Pigeonhole 원리를 활용하여 <b>실현 가능성(Feasibility)</b>을 분석합니다</p>
+              <ul>
+                <li>인원 제약 — Upper Bound Constraint</li>
+                <li>듀티 편차 제약 — Min-Max Optimization</li>
+                <li>워크로드 밸런싱 — AddMaxEquality / AddMinEquality</li>
+                <li>입력 검증 — Pigeonhole 기반 사전 분석</li>
+              </ul>
+            </div>
+
+            <div class="demo-box">
+              <div class="demo-label">CAPACITY GUIDE · 야간 불가 인원</div>
+              <div class="mx-stage">
+                <div class="mx-cubes">
+                  <div class="mx-cube"><div class="face front">1</div><div class="face back">1</div><div class="face right">1</div><div class="face left">1</div><div class="face top">1</div><div class="face bottom">1</div></div>
+                  <div class="mx-cube"><div class="face front">2</div><div class="face back">2</div><div class="face right">2</div><div class="face left">2</div><div class="face top">2</div><div class="face bottom">2</div></div>
+                  <div class="mx-cube"><div class="face front">3</div><div class="face back">3</div><div class="face right">3</div><div class="face left">3</div><div class="face top">3</div><div class="face bottom">3</div></div>
+                  <div class="mx-cube"><div class="face front">4</div><div class="face back">4</div><div class="face right">4</div><div class="face left">4</div><div class="face top">4</div><div class="face bottom">4</div></div>
+                  <div class="mx-cube over"><div class="face front">5</div><div class="face back">5</div><div class="face right">5</div><div class="face left">5</div><div class="face top">5</div><div class="face bottom">5</div></div>
+                </div>
+                <div class="mx-threshold">
+                  <span>0</span>
+                  <span class="limit-mark"></span>
+                  <span class="limit-label">권장 한도</span>
+                  <span>4명</span>
+                </div>
+              </div>
+              <div class="demo-alerts">
+                <span class="alert-tag warn"><span class="dot"></span>5명 초과</span>
+                <span class="alert-tag ok"><span class="dot"></span>4명까지 권장</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. fc_rule -->
+        <div class="rule-section">
+          <div class="rule-head">
+            <div class="ko-name">공정성 룰</div>
+            <h2>FC RULE<span class="tech-name">Fair Cumulative Rule</span></h2>
+            <p class="lead">다기간 부하 균등화 (Multi-period Load Balancing)</p>
+          </div>
+
+          <div class="rule-body">
+            <div class="rule-text">
+              <p>2차원 가중치 테이블 <b>POINT_TABLE[duty][dow_class]</b><br>기반 가중치 점수 합산(Weighted Cumulative Sum)을 수행합니다</p>
+              <p>한 달이 아닌, <b>누적 시점의 공정성</b>을 봅니다</p>
+              <ul>
+                <li>야간 · 주말 · 공휴일 카테고리별 가중치 부여</li>
+                <li>직원별 누적 점수 산정 (Cumulative Scoring)</li>
+                <li>X max / N min 직원 점수 보정</li>
+                <li>다음 달 우선순위 자동 반영</li>
+              </ul>
+            </div>
+
+            <div class="demo-box">
+              <div class="demo-label">FAIRNESS · 야간 누적 비교</div>
+              <div class="fc-stage">
+
+                <div class="fc-side">
+                  <h6>일반 자동화</h6>
+                  <div class="fc-persons">
+                    <div class="fc-person-col">
+                      <div class="fc-cube-stack">
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                      </div>
+                      <div class="fc-person">A</div>
+                      <div class="fc-count">30</div>
+                    </div>
+                    <div class="fc-person-col">
+                      <div class="fc-cube-stack">
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                      </div>
+                      <div class="fc-person">B</div>
+                      <div class="fc-count">24</div>
+                    </div>
+                    <div class="fc-person-col">
+                      <div class="fc-cube-stack">
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                      </div>
+                      <div class="fc-person">C</div>
+                      <div class="fc-count">9</div>
+                    </div>
+                    <div class="fc-person-col">
+                      <div class="fc-cube-stack">
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                      </div>
+                      <div class="fc-person">D</div>
+                      <div class="fc-count">5</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="fc-arrow">→</div>
+
+                <div class="fc-side after">
+                  <h6>FC RULE 적용</h6>
+                  <div class="fc-persons">
+                    <div class="fc-person-col">
+                      <div class="fc-cube-stack">
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                      </div>
+                      <div class="fc-person">A</div>
+                      <div class="fc-count">18</div>
+                    </div>
+                    <div class="fc-person-col">
+                      <div class="fc-cube-stack">
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                      </div>
+                      <div class="fc-person">B</div>
+                      <div class="fc-count">17</div>
+                    </div>
+                    <div class="fc-person-col">
+                      <div class="fc-cube-stack">
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                      </div>
+                      <div class="fc-person">C</div>
+                      <div class="fc-count">17</div>
+                    </div>
+                    <div class="fc-person-col">
+                      <div class="fc-cube-stack">
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                        <div class="fc-cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div>
+                      </div>
+                      <div class="fc-person">D</div>
+                      <div class="fc-count">16</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="demo-alerts">
+                <span class="alert-tag warn"><span class="dot"></span>1년 누적 격차</span>
+                <span class="alert-tag ok"><span class="dot"></span>자동 균등화</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 통합 흐름도 -->
+        <div class="flow-section">
+          <h3>세 가지 룰이 <span class="blue">함께 작동합니다</span></h3>
+          <div class="flow-pipeline">
+            <div class="pipe-step input">
+              <div class="pipe-cube"><div class="face front">?</div><div class="face back">?</div><div class="face right">?</div><div class="face left">?</div><div class="face top">?</div><div class="face bottom">?</div></div>
+              <div class="pipe-label">
+                <div class="label-tag">INPUT</div>
+                <div class="label-name">의뢰자 입력</div>
+              </div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step">
+              <div class="pipe-cube"><div class="face front">Z</div><div class="face back">Z</div><div class="face right">Z</div><div class="face left">Z</div><div class="face top">Z</div><div class="face bottom">Z</div></div>
+              <div class="pipe-label">
+                <div class="label-tag">STEP 1</div>
+                <div class="label-name">패턴 흐름 적용</div>
+              </div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step">
+              <div class="pipe-cube"><div class="face front">MX</div><div class="face back">MX</div><div class="face right">MX</div><div class="face left">MX</div><div class="face top">MX</div><div class="face bottom">MX</div></div>
+              <div class="pipe-label">
+                <div class="label-tag">STEP 2</div>
+                <div class="label-name">수량 제약 적용</div>
+              </div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step">
+              <div class="pipe-cube"><div class="face front">FC</div><div class="face back">FC</div><div class="face right">FC</div><div class="face left">FC</div><div class="face top">FC</div><div class="face bottom">FC</div></div>
+              <div class="pipe-label">
+                <div class="label-tag">STEP 3</div>
+                <div class="label-name">누적 공정 반영</div>
+              </div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step output">
+              <div class="pipe-cube"><div class="face front">✓</div><div class="face back">✓</div><div class="face right">✓</div><div class="face left">✓</div><div class="face top">✓</div><div class="face bottom">✓</div></div>
+              <div class="pipe-label">
+                <div class="label-tag">OUTPUT</div>
+                <div class="label-name">근무표 완성</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 개발자 소개 -->
+    <section class="panel" id="about">
+      <div class="about-wrap">
+        <div class="about-grid">
+
+          <!-- 좌측: 사진 -->
+          <div class="about-photo">
+            <img src="../images/web_profile_long.webp" alt="박주환 개발자">
+          </div>
+
+          <!-- 우측: 텍스트 -->
+          <div class="about-text">
+            <div class="tag">DEVELOPER</div>
+            <h2 class="about-name">포오프 대표<br><span class="blue">박주환</span></h2>
+
+            <p class="intro">
+              한양대학교<span class="blue">(서울)</span> 졸업<br>
+              현직 간호사, 그리고 개발자<br>
+              49개 앱을 혼자 만들고 운영합니다
+            </p>
+
+            <div class="about-quote">
+              <p>"완벽한 코드, 완벽한 프로그램"</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    © 2026 FOUR OFF · <a href="terms.html">이용약관</a>
+  </footer>
+
+</div>
+
+<!-- balloon -->
+<a href="https://kmong.com/gig/739178" target="_blank" class="balloon">
+  <span class="star">★</span>
+  <span>맞춤제작 의뢰</span>
+  <span class="arrow">→</span>
+</a>
+
+<script>
+  // 페이지 전체 fade-in
+  window.addEventListener('DOMContentLoaded', () => {
+    requestAnimationFrame(() => {
+      document.getElementById('pageFade').classList.add('in');
+    });
+
+    // URL 해시로 탭 결정
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+      switchTab(hash);
+    }
+  });
+
+  // 서브탭 전환
+  const tabs = document.querySelectorAll('.sub-tab');
+  const panels = document.querySelectorAll('.panel');
+
+  function switchTab(targetId) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.panel === targetId));
+    // fade out 현재
+    panels.forEach(p => p.classList.remove('fade-in'));
+    setTimeout(() => {
+      panels.forEach(p => p.classList.toggle('active', p.id === targetId));
+      requestAnimationFrame(() => {
+        const target = document.getElementById(targetId);
+        if (target) target.classList.add('fade-in');
+      });
+    }, 200);
+    // 스크롤 맨 위로 (다중 안전망 - 모바일 대응)
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    // URL 해시 업데이트
+    history.replaceState(null, '', '#' + targetId);
+    // 보험: hash 변경 후 브라우저 자동 스크롤 덮어쓰기
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab(tab.dataset.panel);
+    });
+  });
+
+  // ============ 49개 앱 마퀴 생성 ============
+  const APP_URLS = [
+    'https://apps.apple.com/kr/app/%EC%95%BC%EA%B0%84%EA%B7%BC%EB%AC%B4-%EC%8B%9D%EC%82%AC-%ED%83%80%EC%9D%B4%EB%A8%B8-%EA%B5%90%EB%8C%80%EA%B7%BC%EB%AC%B4/id6760750439',
+    'https://apps.apple.com/kr/app/%EC%8B%A0%EC%83%9D%EC%95%84-%EB%B0%A4%EC%88%98%EC%9C%A0-%EA%B5%90%EB%8C%80-%EC%9C%A1%EC%95%84-%EC%88%98%EB%A9%B4/id6760886190',
+    'https://apps.apple.com/kr/app/%EA%B5%90%EB%8C%80%EA%B7%BC%EB%AC%B4-%EC%9A%B4%EB%8F%99-%EC%95%BC%EA%B0%84-%ED%99%88%ED%8A%B8-%ED%83%80%EC%9D%B4%EB%B0%8D/id6760991758',
+    'https://apps.apple.com/kr/app/cpap-comply-insurance-tracker/id6761286767',
+    'https://apps.apple.com/kr/app/curlcast-hair-weather-guide/id6761350441',
+    'https://apps.apple.com/kr/app/coralcalc-reef-dosing-guide/id6761398297',
+    'https://apps.apple.com/kr/app/curdclock-cheese-making-timer/id6761403640',
+    'https://apps.apple.com/kr/app/fertflow-planted-tank-dosing/id6761510216',
+    'https://apps.apple.com/kr/app/dyebatch-dye-recipe-calculator/id6761513317',
+    'https://apps.apple.com/kr/app/gluecast-lash-humidity-guide/id6761650405',
+    'https://apps.apple.com/kr/app/spoolcast-filament-dry-guide/id6761673158',
+    'https://apps.apple.com/kr/app/pourcast-resin-cure-guide/id6761698552',
+    'https://apps.apple.com/kr/app/burrcast-espresso-grind-guide/id6761698525',
+    'https://apps.apple.com/kr/app/spritzcast-scent-spray-guide/id6761741710',
+    'https://apps.apple.com/kr/app/meltcast-makeup-weather-guide/id6761742028',
+    'https://apps.apple.com/kr/app/nailcast-nail-cure-guide/id6761795705',
+    'https://apps.apple.com/kr/app/dewskin-skin-weather-guide/id6761796896',
+    'https://apps.apple.com/kr/app/vocalcast-voice-weather-guide/id6761872859',
+    'https://apps.apple.com/kr/app/lenscast-contact-lens-weather/id6761886816',
+    'https://apps.apple.com/kr/app/beardcast-beard-weather-guide/id6761962144',
+    'https://apps.apple.com/kr/app/inkcast-tattoo-uv-fade-guide/id6761962130',
+    'https://apps.apple.com/kr/app/dyecast-hair-color-fade-guide/id6761962395',
+    'https://apps.apple.com/kr/app/fretcast-guitar-humidity-care/id6762030585',
+    'https://apps.apple.com/kr/app/weathercar-wash-shine-guide/id6762030348',
+    'https://apps.apple.com/kr/app/shrimpcalc-mineral-water-guide/id6762030923',
+    'https://apps.apple.com/kr/app/clayweather-pottery-dry-guide/id6762031080',
+    'https://apps.apple.com/kr/app/bbqcast-pit-weather-guide/id6762104076',
+    'https://apps.apple.com/kr/app/haircast-flat-iron-weather/id6762104305',
+    'https://apps.apple.com/kr/app/sinkercalc-fish-weight-guide/id6762243481',
+    'https://apps.apple.com/kr/app/tanready-self-tan-timer/id6762243927',
+    'https://apps.apple.com/kr/app/sunrig-rv-solar-power-guide/id6762322766',
+    'https://apps.apple.com/kr/app/spraybench-model-paint-guide/id6762324971',
+    'https://apps.apple.com/kr/app/nibflow/id6762325529',
+    'https://apps.apple.com/kr/app/flyway-bird-forecast/id6762440479',
+    'https://apps.apple.com/kr/app/humidbake/id6762443375',
+    'https://apps.apple.com/kr/app/henwise/id6762583691',
+    'https://apps.apple.com/kr/app/milespan/id6762584185',
+    'https://apps.apple.com/kr/app/candlewise-pour-weather-guide/id6762701740',
+    'https://apps.apple.com/kr/app/digday-metal-detecting-score/id6762703040',
+    'https://apps.apple.com/kr/app/staintime-finish-poly-timer/id6762704012',
+    'https://apps.apple.com/kr/app/sendtemps-climbing-friction/id6762705336',
+    'https://apps.apple.com/kr/app/rigdial-fly-leader-builder/id6762942016',
+    'https://apps.apple.com/kr/app/fadeguard-sneaker-sole-care/id6762944366',
+    'https://apps.apple.com/kr/app/knithour-blocking-guide/id6762943687',
+    'https://apps.apple.com/kr/app/roastweather/id6762942702',
+    'https://apps.apple.com/kr/app/%EA%B0%84%ED%98%B8%EC%82%AC-%EA%B7%BC%EB%AC%B4%ED%91%9C-%ED%8F%AC%EC%98%A4%ED%94%84/id6756883621',
+    'https://apps.apple.com/kr/app/%ED%8C%8C%EC%B6%A9%EB%A5%98-%EC%82%AC%EC%9C%A1-%ED%85%8C%EB%9D%BC%EB%A6%AC%EC%9B%80-%EC%98%A8%EC%8A%B5%EB%8F%84/id6766152966',
+    'https://apps.apple.com/kr/app/%EC%8B%9D%EC%B6%A9%EC%8B%9D%EB%AC%BC-%ED%8C%8C%EB%A6%AC%EC%A7%80%EC%98%A5-%EB%84%A4%ED%8E%9C%EB%8D%B0%EC%8A%A4-%ED%9C%B4%EB%A9%B4/id6766277179',
+    'https://apps.apple.com/kr/app/%EB%A7%90-%EC%A0%9C%EC%97%BD%EC%97%BC-%EB%B0%A9%EB%AA%A9-%ED%92%80-%EC%82%AC%EB%A3%8C-%EA%B4%80%EB%A6%AC/id6767417726'
+  ];
+
+  function makeAppTile(idx) {
+    const a = document.createElement('a');
+    a.href = APP_URLS[idx - 1] || '#';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.className = 'app-tile';
+    a.innerHTML = `<img src="../images/app/web_app_${idx}.png" alt="App ${idx}">`;
+    return a;
+  }
+
+  function populateMarquee(elId, startIdx, endIdx) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    // 한 번 채우고, 무한 루프 위해 한 번 더 복제
+    for (let pass = 0; pass < 2; pass++) {
+      for (let i = startIdx; i <= endIdx; i++) {
+        el.appendChild(makeAppTile(i));
+      }
+    }
+  }
+
+  populateMarquee('appsRow1', 1, 12);
+  populateMarquee('appsRow2', 13, 24);
+  populateMarquee('appsRow3', 25, 36);
+  populateMarquee('appsRow4', 37, 49);
+</script>
+
+</body>
+</html>

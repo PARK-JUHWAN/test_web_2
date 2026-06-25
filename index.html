@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>포오프 마켓 — 근무표 의뢰</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Pretendard','Apple SD Gothic Neo',sans-serif;background:#fff;color:#1d1d1f;-webkit-font-smoothing:antialiased;}
+  img{display:block;max-width:100%;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ================= 상단 헤더 (당근 topbar 대응) ================= */
+  .top{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #f0f0f0;}
+  .top-inner{max-width:1180px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:28px;}
+  .brand{display:flex;align-items:center;gap:9px;flex-shrink:0;}
+  .brand img{width:30px;height:30px;}
+  .brand .name{font-size:19px;font-weight:700;letter-spacing:-.4px;}
+  .brand .name .mk{color:#0066ff;}
+  .gnb{display:flex;gap:26px;align-items:center;}
+  .gnb a{font-size:15px;font-weight:600;color:#1d1d1f;padding:4px 0;position:relative;}
+  .gnb a:hover{color:#0066ff;}
+  .gnb a.on{color:#0066ff;}
+  .gnb a.on::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:#0066ff;border-radius:1px;}
+  .top-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+  .btn-app{background:#0066ff;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:600;}
+  .btn-login{background:none;border:1px solid #d2d2d7;color:#1d1d1f;padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;}
+  .btn-login:hover{border-color:#0066ff;color:#0066ff;}
+  .btn-logout{background:none;border:none;color:#86868b;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;}
+  .btn-logout:hover{color:#1d1d1f;}
+  .user-nick{font-size:14px;font-weight:600;color:#1d1d1f;}
+
+  /* ================= 검색 영역 (당근 search row 대응) ================= */
+  .search-row{max-width:1180px;margin:0 auto;padding:18px 24px 0;display:flex;align-items:center;gap:12px;}
+  .loc-pick{display:flex;align-items:center;gap:6px;border:1px solid #e0e0e0;border-radius:980px;padding:11px 18px;font-size:14px;font-weight:600;flex-shrink:0;}
+  .loc-pick .pin{color:#0066ff;}
+  .loc-pick .car{color:#86868b;font-size:11px;}
+  .search-box{flex:1;display:flex;align-items:center;border:2px solid #1d1d1f;border-radius:12px;overflow:hidden;}
+  .search-cat{display:flex;align-items:center;gap:5px;padding:13px 16px;font-size:14px;font-weight:600;border-right:1px solid #e8e8ed;white-space:nowrap;}
+  .search-cat .car{color:#86868b;font-size:11px;}
+  .search-box input{flex:1;border:none;outline:none;padding:13px 16px;font-size:15px;font-family:inherit;}
+  .search-go{width:52px;background:#0066ff;color:#fff;border:none;display:flex;align-items:center;justify-content:center;font-size:18px;align-self:stretch;}
+  /* 연관 검색어 칩 */
+  .related{max-width:1180px;margin:0 auto;padding:14px 24px 0;display:flex;gap:18px;flex-wrap:wrap;}
+  .related a{font-size:14px;color:#515154;}
+  .related a:hover{color:#0066ff;}
+
+  /* ================= 본문 레이아웃 (좌 필터 + 우 그리드) ================= */
+  .wrap{max-width:1180px;margin:0 auto;padding:8px 24px 80px;display:grid;grid-template-columns:200px 1fr;gap:36px;}
+  .page-title{grid-column:1 / -1;padding:26px 0 18px;}
+  .page-title h1{font-size:26px;font-weight:700;letter-spacing:-.5px;}
+  .page-title h1 b{color:#0066ff;}
+
+  /* ----- 좌측 필터 ----- */
+  .filter h3{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;}
+  .filter h3 .reset{font-size:12px;color:#0066ff;font-weight:600;cursor:pointer;}
+  .filter-block{padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid #f0f0f0;}
+  .filter-block .ftitle{font-size:14px;font-weight:700;margin-bottom:14px;}
+  .filter-block .fsub{font-size:13px;color:#86868b;margin-bottom:12px;}
+  .opt{display:flex;align-items:center;gap:9px;padding:7px 0;font-size:14px;color:#1d1d1f;cursor:pointer;}
+  .opt input{accent-color:#0066ff;width:16px;height:16px;}
+  .opt.checkrow{font-size:14px;}
+  .more{font-size:13px;color:#0066ff;font-weight:600;cursor:pointer;margin-top:6px;display:inline-block;}
+
+  /* ----- 우측: 정렬 + 그리드 ----- */
+  .listing-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+  .count{font-size:14px;color:#86868b;}
+  .count b{color:#1d1d1f;}
+  .sort{display:flex;gap:8px;}
+  .sort button{border:1px solid #e0e0e0;background:#fff;border-radius:980px;padding:7px 15px;font-size:13px;font-weight:600;color:#515154;}
+  .sort button.on{border-color:#0066ff;color:#0066ff;background:rgba(0,102,255,.05);}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  @media(max-width:1023px){.grid{grid-template-columns:repeat(3,1fr);}}
+
+  /* 의뢰 카드 */
+  .card{cursor:pointer;transition:transform .2s;}
+  .card:hover{transform:translateY(-4px);}
+  .card-thumb{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#eef2f8,#dde7f4);display:flex;align-items:center;justify-content:center;}
+  .card-thumb .shift{font-size:40px;font-weight:700;letter-spacing:-1px;color:#0066ff;opacity:.85;}
+  .card-thumb .badge{position:absolute;top:10px;left:10px;background:rgba(29,29,31,.85);color:#fff;font-size:11px;font-weight:600;padding:5px 10px;border-radius:980px;backdrop-filter:blur(4px);}
+  .card-thumb .badge.urgent{background:rgba(220,38,38,.9);}
+  .card-thumb .badge.done{background:rgba(34,197,94,.9);}
+  .card-body{padding:12px 4px 0;}
+  .card-title{font-size:15px;font-weight:600;letter-spacing:-.3px;margin-bottom:7px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:41px;}
+  .card-price{font-size:17px;font-weight:700;margin-bottom:6px;}
+  .card-meta{font-size:13px;color:#86868b;}
+  .card-meta .dot{margin:0 5px;}
+  .card-foot{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:12px;color:#515154;}
+  .card-foot .who{display:flex;align-items:center;gap:5px;}
+  .card-foot .ava{width:18px;height:18px;border-radius:50%;background:#dde7f4;}
+
+  /* 플로팅 의뢰 작성 버튼 (당근 '글쓰기' 대응) */
+  .fab{position:fixed;right:28px;bottom:28px;background:#0066ff;color:#fff;padding:15px 26px;border-radius:980px;font-size:16px;font-weight:700;display:flex;align-items:center;gap:9px;box-shadow:0 12px 32px rgba(0,102,255,.35);z-index:90;}
+  .fab .plus{font-size:20px;line-height:1;}
+
+  /* ===== 반응형 ===== */
+  @media(max-width:768px){
+    .top-inner{padding:14px 16px;gap:16px;}
+    .gnb{display:none;}
+    .search-row{flex-wrap:wrap;padding:14px 16px 0;}
+    .loc-pick{order:1;}
+    .search-box{order:2;width:100%;}
+    .related{padding:12px 16px 0;gap:14px;}
+    .wrap{grid-template-columns:1fr;padding:8px 16px 80px;gap:0;}
+    .filter{display:none;}  /* 모바일은 필터를 별도 시트로 — 여기선 숨김 */
+    .grid{grid-template-columns:repeat(2,1fr);gap:14px;}
+    .page-title h1{font-size:22px;}
+    .fab{right:16px;bottom:16px;padding:14px 22px;font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 상단 헤더 ===== -->
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <img src="images/web_icon.png" alt="포오프">
+      <span class="name">FOUR OFF <span class="mk">마켓</span></span>
+    </div>
+    <nav class="gnb">
+      <a class="on">근무표 의뢰</a>
+      <a>맞춤제작</a>
+      <a>이용방법</a>
+      <a>간호사 지원</a>
+    </nav>
+    <div class="top-right">
+      <span class="user-nick" id="userNick" style="display:none"></span>
+      <button class="btn-login" id="btnLogin" onclick="kakaoLogin()">로그인</button>
+      <button class="btn-logout" id="btnLogout" style="display:none" onclick="logout()">로그아웃</button>
+      <a class="btn-app">앱 다운로드</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 검색 영역 ===== -->
+<div class="search-row">
+  <div class="loc-pick"><span class="pin">📍</span> 내과 3교대 <span class="car">▾</span></div>
+  <div class="search-box">
+    <div class="search-cat">근무표 의뢰 <span class="car">▾</span></div>
+    <input type="text" placeholder="병동, 근무형태, 희망조건 검색">
+    <button class="search-go">→</button>
+  </div>
+</div>
+<div class="related">
+  <a>3교대</a><a>2교대</a><a>고정 나이트</a><a>주말 오프</a><a>나이트 연속 금지</a>
+  <a>이브닝 회피</a><a>12명 이하</a><a>응급실</a><a>중환자실</a><a>병동 신규</a>
+</div>
+
+<!-- ===== 본문 ===== -->
+<div class="wrap">
+
+  <div class="page-title">
+    <h1><b>"내과 3교대"</b> 의뢰 목록</h1>
+  </div>
+
+  <!-- 좌측 필터 -->
+  <aside class="filter">
+    <h3>필터 <span class="reset">초기화</span></h3>
+
+    <div class="filter-block">
+      <label class="opt checkrow"><input type="checkbox"> 아직 안 맡겨진 것만</label>
+    </div>
+
+    <div class="filter-block">
+      <div class="ftitle">근무 형태</div>
+      <label class="opt"><input type="radio" name="shift" checked> 3교대</label>
+      <label class="opt"><input type="radio" name="shift"> 2교대</label>
+      <label class="opt"><input type="radio" name="shift"> 고정 나이트</label>
+      <label class="opt"><input type="radio" name="shift"> 고정 데이</label>
+      <label class="opt"><input type="radio" name="shift"> 기타</label>
+      <span class="more">더보기</span>
+    </div>
+
+    <div class="filter-block">
+      <div class="ftitle">인원 수</div>
+      <label class="opt"><input type="checkbox"> ~10명</label>
+      <label class="opt"><input type="checkbox"> 11~15명</label>
+      <label class="opt"><input type="checkbox"> 16~20명</label>
+      <label class="opt"><input type="checkbox"> 21명 이상</label>
+    </div>
+
+    <div class="filter-block" style="border-bottom:none;">
+      <div class="ftitle">가격대</div>
+      <label class="opt"><input type="checkbox"> 1만원</label>
+      <label class="opt"><input type="checkbox"> 2만원</label>
+      <label class="opt"><input type="checkbox"> 3만원</label>
+    </div>
+  </aside>
+
+  <!-- 우측 그리드 -->
+  <main>
+    <div class="listing-head">
+      <span class="count">전체 <b>23건</b></span>
+      <div class="sort">
+        <button class="on">최신순</button>
+        <button>마감임박순</button>
+        <button>낮은가격순</button>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <!-- 카드 1 -->
+      <article class="card">
+        <div class="card-thumb">
+          <span class="shift">3교대</span>
+          <span class="badge urgent">마감 D-1</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">내과 병동 12명, 7월 근무표 부탁드려요</div>
+          <div class="card-price">2만원</div>
+          <div class="card-meta">내과 3교대<span class="dot">·</span>4시간 전</div>
+          <div class="card-foot"><span class="who"><span class="ava"></span> 익명의 수간호사</span></div>
+        </div>
+      </article>
+
+      <!-- 카드 2 -->
+      <article class="card">
+        <div class="card-thumb">
+          <span class="shift">2교대</span>
+          <span class="badge">사진 첨부</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">주말 오프 2회 꼭 넣어주세요 (외과)</div>
+          <div class="card-price">3만원</div>
+          <div class="card-meta">외과 2교대<span class="dot">·</span>5일 전</div>
+          <div class="card-foot"><span class="who"><span class="ava"></span> 익명의 간호사</span></div>
+        </div>
+      </article>
+
+      <!-- 카드 3 -->
+      <article class="card">
+        <div class="card-thumb">
+          <span class="shift">N</span>
+          <span class="badge">사진 첨부</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">고정 나이트팀 8명, 연속 금지 조건</div>
+          <div class="card-price">2만원</div>
+          <div class="card-meta">응급실 고정N<span class="dot">·</span>10일 전</div>
+          <div class="card-foot"><span class="who"><span class="ava"></span> 익명의 수간호사</span></div>
+        </div>
+      </article>
+
+      <!-- 카드 4 (완료) -->
+      <article class="card">
+        <div class="card-thumb">
+          <span class="shift">3교대</span>
+          <span class="badge done">완료</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">중환자실 16명, 이브닝 회피 반영 요청</div>
+          <div class="card-price">3만원</div>
+          <div class="card-meta">중환자실 3교대<span class="dot">·</span>2주 전</div>
+          <div class="card-foot"><span class="who"><span class="ava"></span> 익명의 간호사</span></div>
+        </div>
+      </article>
+
+      <!-- 카드 5 -->
+      <article class="card">
+        <div class="card-thumb">
+          <span class="shift">3교대</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">신규 많은 병동, 사수-부사수 짝 맞춰주세요</div>
+          <div class="card-price">2만원</div>
+          <div class="card-meta">내과 3교대<span class="dot">·</span>1일 전</div>
+          <div class="card-foot"><span class="who"><span class="ava"></span> 익명의 수간호사</span></div>
+        </div>
+      </article>
+
+      <!-- 카드 6 -->
+      <article class="card">
+        <div class="card-thumb">
+          <span class="shift">2교대</span>
+          <span class="badge">사진 첨부</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">데이 선호 3명, 나머지는 알아서 공정하게</div>
+          <div class="card-price">1만원</div>
+          <div class="card-meta">검진센터 2교대<span class="dot">·</span>3일 전</div>
+          <div class="card-foot"><span class="who"><span class="ava"></span> 익명의 간호사</span></div>
+        </div>
+      </article>
+
+      <!-- 카드 7 -->
+      <article class="card">
+        <div class="card-thumb">
+          <span class="shift">3교대</span>
+          <span class="badge urgent">마감 D-2</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">특정 두 명 같은 듀티 피해주세요 (조용히)</div>
+          <div class="card-price">3만원</div>
+          <div class="card-meta">정형외과 3교대<span class="dot">·</span>6시간 전</div>
+          <div class="card-foot"><span class="who"><span class="ava"></span> 익명의 수간호사</span></div>
+        </div>
+      </article>
+
+      <!-- 카드 8 -->
+      <article class="card">
+        <div class="card-thumb">
+          <span class="shift">N</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">나이트 전담 6명, 주 2회 이하로</div>
+          <div class="card-price">2만원</div>
+          <div class="card-meta">병동 고정N<span class="dot">·</span>4일 전</div>
+          <div class="card-foot"><span class="who"><span class="ava"></span> 익명의 간호사</span></div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+</div>
+
+<!-- 플로팅: 의뢰 작성 -->
+<a class="fab"><span class="plus">+</span> 근무표 의뢰하기</a>
+
+<script>
+// ===== Supabase 연결 (포오프 마켓) =====
+var SUPABASE_URL = 'https://xsrttjeautreumpwnvps.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_u92DNGXECBBaIMITaSE1yA_N0Ryt0qp';
+var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+var currentUser = null;
+
+// ===== 로그인 상태 체크 (페이지 열릴 때) =====
+(async function checkAuth() {
+  var r = await supabaseClient.auth.getSession();
+  if (r.data.session) {
+    currentUser = r.data.session.user;
+    updateAuthUI(true);
+  }
+  supabaseClient.auth.onAuthStateChange(function(event, session) {
+    if (session) {
+      currentUser = session.user;
+      updateAuthUI(true);
+    } else {
+      currentUser = null;
+      updateAuthUI(false);
+    }
+  });
+})();
+
+// ===== 로그인 상태에 따라 버튼 토글 =====
+function updateAuthUI(loggedIn) {
+  var btnLogin = document.getElementById('btnLogin');
+  var btnLogout = document.getElementById('btnLogout');
+  var userNick = document.getElementById('userNick');
+  if (loggedIn) {
+    btnLogin.style.display = 'none';
+    btnLogout.style.display = '';
+    userNick.style.display = '';
+    // 카카오 닉네임 표시
+    var nick = '';
+    if (currentUser && currentUser.user_metadata) {
+      nick = currentUser.user_metadata.name
+          || currentUser.user_metadata.full_name
+          || currentUser.user_metadata.nickname
+          || '';
+    }
+    userNick.textContent = nick ? (nick + '님') : '로그인됨';
+  } else {
+    btnLogin.style.display = '';
+    btnLogout.style.display = 'none';
+    userNick.style.display = 'none';
+  }
+}
+
+// ===== 카카오 로그인 =====
+async function kakaoLogin() {
+  var r = await supabaseClient.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: { redirectTo: window.location.href }
+  });
+  if (r.error) alert('로그인 오류: ' + r.error.message);
+}
+
+// ===== 로그아웃 =====
+async function logout() {
+  await supabaseClient.auth.signOut();
+  currentUser = null;
+  updateAuthUI(false);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이용약관 | FOUR OFF</title>
+<meta name="description" content="FOUR OFF 서비스 이용약관">
+<link rel="icon" type="image/png" href="../images/web_icon.png">
+<link rel="apple-touch-icon" href="../images/web_icon.png">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Pretendard','Apple SD Gothic Neo',sans-serif;background:#fff;color:#1d1d1f;-webkit-font-smoothing:antialiased;}
+  body{overflow-x:hidden;}
+  a{text-decoration:none;color:inherit;}
+  img{display:block;max-width:100%;}
+
+  /* NAV */
+  .main-nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:100;}
+  .nav-inner{max-width:1200px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;}
+  .nav-brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;letter-spacing:-.3px;cursor:pointer;}
+  .nav-brand img{width:26px;height:26px;}
+  .nav-menu{display:flex;gap:36px;}
+  .nav-menu a{font-size:14px;color:#515154;font-weight:500;cursor:pointer;transition:color .25s;position:relative;padding:6px 0;}
+  .nav-menu a:hover{color:#1d1d1f;}
+  .nav-menu a.active{color:#1d1d1f;font-weight:600;}
+  .nav-menu a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#1d1d1f;border-radius:1px;}
+
+  /* 페이지 fade-in */
+  .page-fade{opacity:0;transition:opacity .8s ease;}
+  .page-fade.in{opacity:1;}
+
+  /* Hero */
+  .page-hero{padding:160px 32px 80px;background:#fafafa;text-align:center;border-bottom:.5px solid #e8e8ed;}
+  .page-hero .tag{font-size:12px;color:#0066ff;letter-spacing:2px;font-weight:600;margin-bottom:14px;}
+  .page-hero h1{font-size:56px;font-weight:600;letter-spacing:-2px;line-height:1.1;color:#1d1d1f;margin-bottom:14px;}
+  .page-hero .sub{font-size:17px;color:#6e6e73;}
+
+  /* 본문 */
+  .terms-wrap{padding:100px 32px 140px;}
+  .terms-content{max-width:780px;margin:0 auto;}
+  .terms-date{font-size:13px;color:#86868b;margin-bottom:40px;padding-bottom:24px;border-bottom:.5px solid #e8e8ed;}
+  .terms-content h3{font-size:22px;font-weight:600;letter-spacing:-.5px;margin:48px 0 16px;color:#1d1d1f;}
+  .terms-content h3:first-of-type{margin-top:0;}
+  .terms-content p{font-size:15px;line-height:1.8;color:#424245;margin-bottom:14px;}
+  .terms-content ol{padding-left:20px;margin-bottom:14px;}
+  .terms-content ul{padding-left:20px;margin-top:8px;}
+  .terms-content li{font-size:15px;line-height:1.8;color:#424245;margin-bottom:10px;}
+  .terms-content hr{margin:56px 0;border:0;border-top:.5px solid #e8e8ed;}
+  .terms-content .contact strong{display:inline-block;min-width:80px;color:#1d1d1f;}
+
+  /* footer */
+  .footer{padding:48px 32px;background:#fafafa;border-top:.5px solid #e8e8ed;text-align:center;font-size:12px;color:#86868b;}
+
+  /* balloon */
+  .balloon{position:fixed;right:24px;bottom:24px;background:#1d1d1f;color:#fff;padding:16px 26px 16px 22px;border-radius:980px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:12px;box-shadow:0 0 12px rgba(255,215,0,.15), 0 16px 44px rgba(0,0,0,.32);cursor:pointer;z-index:90;animation:balloonFloat 3s ease-in-out infinite;text-decoration:none;transition:box-shadow .4s ease;}
+  .balloon:hover{box-shadow:0 0 30px rgba(255,215,0,.5), 0 16px 44px rgba(0,0,0,.32);}
+  .balloon .star{color:#fbbf24;font-size:15px;}
+  .balloon .arrow{font-size:15px;margin-left:3px;color:#fff;}
+  @keyframes balloonFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+  @media(max-width:768px){
+    .nav-inner{padding:14px 20px;}
+    .nav-menu{gap:20px;}
+    .nav-menu a{font-size:12px;}
+    .page-hero{padding:110px 20px 60px;}
+    .page-hero h1{font-size:32px;letter-spacing:-1.3px;}
+    .page-hero .sub{font-size:14px;}
+    .terms-wrap{padding:60px 20px 100px;}
+    .terms-content h3{font-size:18px;}
+    .terms-content p, .terms-content li{font-size:14px;}
+    .balloon{right:16px;bottom:16px;padding:14px 22px 14px 18px;font-size:13px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="main-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">
+      <span>FOUR OFF</span>
+    </a>
+    <div class="nav-menu">
+      <a href="../index.html">앱</a>
+      <a href="custom.html">맞춤제작</a>
+      <a href="developer.html">개발자</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 페이지 전체 fade-in -->
+<div class="page-fade" id="pageFade">
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="tag">TERMS</div>
+    <h1>이용약관</h1>
+    <p class="sub">FOUR OFF 서비스 이용약관</p>
+  </section>
+
+  <!-- 본문 -->
+  <section class="terms-wrap">
+    <div class="terms-content">
+
+      <p class="terms-date">시행일: 2025년 1월 1일</p>
+
+      <h3>제1조 (목적)</h3>
+      <p>이 약관은 포오프(이하 "서비스")를 제공하는 박주환(이하 "운영자")과 이를 이용하는 사용자(이하 "이용자") 간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.</p>
+
+      <h3>제2조 (정의)</h3>
+      <ol>
+        <li>"서비스"란 운영자가 제공하는 간호사 근무표 자동 생성 애플리케이션 및 관련 제반 서비스를 의미합니다.</li>
+        <li>"이용자"란 이 약관에 따라 서비스를 이용하는 자를 말합니다.</li>
+        <li>"방"이란 이용자들이 근무표를 공유하기 위해 생성하는 가상의 공간을 의미합니다.</li>
+      </ol>
+
+      <h3>제3조 (약관의 효력 및 변경)</h3>
+      <ol>
+        <li>이 약관은 서비스를 이용하고자 하는 모든 이용자에게 적용됩니다.</li>
+        <li>운영자는 필요한 경우 약관을 변경할 수 있으며, 변경된 약관은 서비스 내 공지사항을 통해 공지합니다.</li>
+        <li>이용자가 변경된 약관에 동의하지 않는 경우 서비스 이용을 중단할 수 있습니다.</li>
+      </ol>
+
+      <h3>제4조 (서비스의 제공)</h3>
+      <ol>
+        <li>운영자는 다음과 같은 서비스를 제공합니다.
+          <ul>
+            <li>간호사 근무표 자동 생성</li>
+            <li>희망근무 입력 및 관리</li>
+            <li>근무조건 설정</li>
+            <li>방 기반 협업 기능</li>
+          </ul>
+        </li>
+        <li>서비스는 무료로 제공되며, 운영자의 사정에 따라 변경될 수 있습니다.</li>
+      </ol>
+
+      <h3>제5조 (서비스 이용)</h3>
+      <ol>
+        <li>이용자는 별도의 회원가입 없이 서비스를 이용할 수 있습니다.</li>
+        <li>이용자는 방 이름과 비밀번호를 통해 방에 입장하여 서비스를 이용합니다.</li>
+        <li>이용자는 본인의 방 정보(이름, 비밀번호)를 안전하게 관리할 책임이 있습니다.</li>
+      </ol>
+
+      <h3>제6조 (이용자의 의무)</h3>
+      <ol>
+        <li>이용자는 다음 행위를 하여서는 안 됩니다.
+          <ul>
+            <li>타인의 정보를 도용하거나 허위 정보를 입력하는 행위</li>
+            <li>서비스의 정상적인 운영을 방해하는 행위</li>
+            <li>서비스를 이용하여 법령 또는 공서양속에 위반되는 행위</li>
+            <li>다른 이용자의 개인정보를 무단으로 수집, 저장, 공개하는 행위</li>
+          </ul>
+        </li>
+        <li>이용자는 관계 법령, 이 약관의 규정, 이용안내 및 서비스와 관련하여 공지한 주의사항을 준수하여야 합니다.</li>
+      </ol>
+
+      <h3>제7조 (운영자의 의무)</h3>
+      <ol>
+        <li>운영자는 관련 법령과 이 약관이 금지하거나 공서양속에 반하는 행위를 하지 않습니다.</li>
+        <li>운영자는 지속적이고 안정적인 서비스 제공을 위해 노력합니다.</li>
+        <li>운영자는 이용자의 개인정보를 보호하기 위해 개인정보처리방침을 수립하고 준수합니다.</li>
+      </ol>
+
+      <h3>제8조 (서비스의 중단)</h3>
+      <ol>
+        <li>운영자는 다음 각 호에 해당하는 경우 서비스 제공을 일시적으로 중단할 수 있습니다.
+          <ul>
+            <li>시스템 정기점검, 증설 및 교체</li>
+            <li>천재지변, 국가비상사태 등 불가항력적 사유</li>
+            <li>기타 운영상 상당한 이유가 있는 경우</li>
+          </ul>
+        </li>
+        <li>운영자는 서비스 중단 시 사전에 공지하며, 불가피한 경우 사후에 공지할 수 있습니다.</li>
+      </ol>
+
+      <h3>제9조 (면책조항)</h3>
+      <ol>
+        <li>운영자는 무료로 제공되는 서비스와 관련하여 관련 법령에 특별한 규정이 없는 한 책임을 지지 않습니다.</li>
+        <li>운영자는 이용자의 귀책사유로 인한 서비스 이용 장애에 대해 책임을 지지 않습니다.</li>
+        <li>운영자는 이용자가 서비스를 이용하여 기대하는 결과를 얻지 못한 것에 대해 책임을 지지 않습니다.</li>
+        <li>운영자는 이용자 간 또는 이용자와 제3자 간에 서비스를 매개로 발생한 분쟁에 대해 개입할 의무가 없으며, 이로 인한 손해를 배상할 책임이 없습니다.</li>
+      </ol>
+
+      <h3>제10조 (분쟁해결 및 관할법원)</h3>
+      <ol>
+        <li>운영자와 이용자 간에 발생한 분쟁에 관한 소송은 대한민국 법을 적용합니다.</li>
+        <li>서비스 이용으로 발생한 분쟁에 대해 소송이 제기되는 경우 민사소송법상의 관할법원에 제기합니다.</li>
+      </ol>
+
+      <h3>부칙</h3>
+      <p>이 약관은 2025년 1월 1일부터 시행합니다.</p>
+
+      <hr>
+
+      <h3>연락처</h3>
+      <div class="contact">
+        <p><strong>운영자:</strong> 박주환</p>
+        <p><strong>이메일:</strong> naruto0414@naver.com</p>
+        <p><strong>주소:</strong> 서울시 강남구 개포로26길 16</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="footer">
+    © 2026 FOUR OFF
+  </footer>
+
+</div>
+
+<!-- balloon -->
+<a href="https://kmong.com/gig/739178" target="_blank" class="balloon">
+  <span class="star">★</span>
+  <span>맞춤제작 의뢰</span>
+  <span class="arrow">→</span>
+</a>
+
+<script>
+  // 페이지 진입 시 전체 fade-in
+  window.addEventListener('DOMContentLoaded', () => {
+    requestAnimationFrame(() => {
+      document.getElementById('pageFade').classList.add('in');
+    });
+  });
+</script>
+
+</body>
+</html>

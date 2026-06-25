@@ -1,0 +1,497 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- SEO -->
+<title>간호사 근무표 자동생성 | 포오프 FOUR OFF</title>
+<meta name="description" content="수학적 알고리즘으로 만드는 공정한 근무표. 간호사·교대근무 모든 직군 가능. 100+ 부서가 사용 중입니다.">
+<meta name="keywords" content="근무표,교대근무,간호사 근무표,듀티표,나이트 근무,근무표 만들기,근무표 자동생성,희망근무,근무표 맞춤 제작,사무직 근무표,콜센터 근무표">
+<meta name="author" content="박주환">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.fouroff.kr/">
+
+<!-- Open Graph (카카오톡, 페이스북) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="포오프 FOUR OFF">
+<meta property="og:title" content="간호사 근무표 자동생성 | 포오프 FOUR OFF">
+<meta property="og:description" content="수학적 알고리즘으로 만드는 공정한 근무표. 100+ 부서가 사용 중입니다.">
+<meta property="og:url" content="https://www.fouroff.kr/">
+<meta property="og:image" content="https://www.fouroff.kr/../images/web_icon.png">
+<meta property="og:locale" content="ko_KR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="간호사 근무표 자동생성 | 포오프 FOUR OFF">
+<meta name="twitter:description" content="수학적 알고리즘으로 만드는 공정한 근무표. 100+ 부서가 사용 중입니다.">
+<meta name="twitter:image" content="https://www.fouroff.kr/../images/web_icon.png">
+
+<!-- 검색엔진 인증 -->
+<meta name="naver-site-verification" content="49aea101007572d3b1f989b846ccda03ff96c223">
+<meta name="google-site-verification" content="_yo2pm1HNul_XpzrGx6scsGmRgDG-f60WYmQCVWs3Nw">
+
+<!-- iOS 앱 스마트 배너 -->
+<meta name="apple-itunes-app" content="app-id=6756883621">
+
+<!-- 파비콘 -->
+<link rel="icon" type="image/png" href="../images/web_icon.png">
+<link rel="apple-touch-icon" href="../images/web_icon.png">
+
+<!-- 프리로드 (다음 페이지의 후기 이미지 미리 다운로드 → 클릭 시 즉시 표시) -->
+<link rel="preload" as="image" href="../images/web_review_1.webp">
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Pretendard','Apple SD Gothic Neo',sans-serif;background:#fff;color:#1d1d1f;-webkit-font-smoothing:antialiased;}
+  body{overflow-x:hidden;}
+  a{text-decoration:none;color:inherit;}
+  img{display:block;max-width:100%;}
+
+  /* 인트로 */
+  .intro{position:fixed;inset:0;background:#121212;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;cursor:pointer;transition:opacity .9s ease, visibility 0s linear .9s;}
+  .intro.fade{opacity:0;visibility:hidden;}
+  .intro::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%, rgba(120,160,220,.10) 0%, transparent 60%);pointer-events:none;}
+  .intro-logo{width:400px;max-width:60vw;margin-bottom:48px;filter:drop-shadow(0 30px 60px rgba(180,200,255,.25));animation:logoFloat 4.5s ease-in-out infinite;}
+  .intro-copy{text-align:center;color:#fff;}
+  .intro-copy .l1{font-size:36px;font-weight:300;letter-spacing:-1px;line-height:1.4;color:rgba(255,255,255,.7);}
+  .intro-copy .l2{font-size:48px;font-weight:600;letter-spacing:-1.5px;line-height:1.3;margin-top:6px;background:linear-gradient(180deg,#fff 30%,#a1a1a6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  @keyframes logoFloat{
+    0%   {transform:translateY(0) rotate(0deg);}
+    25%  {transform:translateY(-10px) rotate(0.6deg);}
+    50%  {transform:translateY(-14px) rotate(0deg);}
+    75%  {transform:translateY(-6px) rotate(-0.6deg);}
+    100% {transform:translateY(0) rotate(0deg);}
+  }
+
+  /* NAV */
+  .main-nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:100;opacity:0;transform:translateY(-100%);transition:opacity .6s ease .6s, transform .6s ease .6s;}
+  .main-nav.show{opacity:1;transform:translateY(0);}
+  .nav-inner{max-width:1200px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;}
+  .nav-brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;letter-spacing:-.3px;}
+  .nav-brand img{width:26px;height:26px;}
+  .nav-menu{display:flex;gap:36px;}
+  .nav-menu a{font-size:14px;color:#515154;font-weight:500;cursor:pointer;transition:color .25s;position:relative;padding:6px 0;}
+  .nav-menu a:hover{color:#1d1d1f;}
+  .nav-menu a.active{color:#1d1d1f;font-weight:600;}
+  .nav-menu a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#1d1d1f;border-radius:1px;}
+
+  /* main wrap */
+  .main{opacity:0;transition:opacity .8s ease .4s;}
+  .main.show{opacity:1;}
+
+  /* Hero */
+  .hero{min-height:100vh;padding:140px 32px 100px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .hero::before{content:"";position:absolute;top:-300px;left:50%;transform:translateX(-50%);width:1200px;height:700px;background:radial-gradient(ellipse, rgba(0,102,255,.05) 0%, transparent 60%);pointer-events:none;}
+  .live-headline{font-size:56px;font-weight:600;letter-spacing:-2px;line-height:1.3;color:#1d1d1f;text-align:center;margin-bottom:64px;position:relative;}
+  .live-headline .live-dot{display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:50%;margin-right:14px;vertical-align:middle;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:livePulse 1.6s ease-in-out infinite;}
+  @keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}70%{box-shadow:0 0 0 14px rgba(34,197,94,0);}100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}}
+  .graph-stage{position:relative;max-width:960px;width:100%;margin:0 auto;}
+  .graph-img{width:100%;height:auto;display:block;transition:opacity 1.2s ease;}
+  .graph-img.is-hidden{opacity:0;position:absolute;top:0;left:0;}
+  .graph-caption{text-align:center;margin-top:24px;font-size:20px;color:#86868b;letter-spacing:.3px;font-weight:500;transition:opacity .6s ease;min-height:60px;line-height:1.5;}
+  .graph-caption b{color:#1d1d1f;font-weight:700;}
+
+  /* Steps Intro — 동적 효과 */
+  .steps-intro{padding:160px 32px 80px;background:#fff;text-align:center;}
+  .dyn-headline{font-size:64px;font-weight:600;letter-spacing:-2.4px;line-height:1.15;color:#1d1d1f;display:inline-block;}
+  /* 워드 페이드인 */
+  .dyn-word{display:inline-block;opacity:0;transform:translateY(20px);transition:opacity .7s ease, transform .7s ease;}
+  .dyn-headline.in .dyn-word{opacity:1;transform:translateY(0);}
+  .dyn-headline.in .dyn-word:nth-child(1){transition-delay:.1s;}
+  .dyn-headline.in .dyn-word:nth-child(2){transition-delay:.25s;}
+  .dyn-headline.in .dyn-word:nth-child(3){transition-delay:.4s;}
+  .dyn-headline.in .dyn-word:nth-child(4){transition-delay:.55s;}
+  .dyn-headline.in .dyn-word:nth-child(5){transition-delay:.7s;}
+  .dyn-headline.in .dyn-word:nth-child(6){transition-delay:.85s;}
+  /* 펄스 도트 (엑셀을 앞에) */
+  .dyn-dot{display:inline-block;width:10px;height:10px;background:#22c55e;border-radius:50%;margin-right:16px;vertical-align:middle;transform:translateY(-4px);box-shadow:0 0 0 0 rgba(34,197,94,.6);}
+  .dyn-headline.in .dyn-dot{animation:livePulse 1.6s ease-in-out infinite 1s;}
+  /* 카운트업 숫자 + 글로우 */
+  .dyn-count{display:inline-block;color:#0066ff;font-variant-numeric:tabular-nums;position:relative;}
+  .dyn-count::after{content:"";position:absolute;inset:-12px -8px;background:radial-gradient(ellipse, rgba(0,102,255,.18) 0%, transparent 60%);filter:blur(8px);opacity:0;z-index:-1;}
+  .dyn-headline.in .dyn-count::after{animation:glowPulse 3s ease-in-out infinite 1.2s;}
+  @keyframes glowPulse{0%,100%{opacity:0;}50%{opacity:1;}}
+  /* shimmer (살짝) */
+  .dyn-shimmer{background:linear-gradient(90deg, #0066ff 0%, #4d94ff 50%, #0066ff 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .dyn-headline.in .dyn-shimmer{animation:shimmer 4s ease-in-out infinite 1.5s;}
+  @keyframes shimmer{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+
+  .steps-wrap{padding:80px 32px 160px;background:#fff;}
+  .step{max-width:1100px;margin:0 auto 200px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;}
+  .step:last-child{margin-bottom:0;}
+  /* 짝수 step: 텍스트 우측, 이미지 좌측 (order로 처리, direction:rtl 안 씀) */
+  .step.reverse .step-text{order:2;}
+  .step.reverse .step-img{order:1;}
+  .step-text{position:relative;}
+  .step-text .num{font-size:12px;color:#0066ff;letter-spacing:2.5px;font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .step-text .num::before{content:"";width:24px;height:1px;background:#0066ff;}
+  .step-text h3{font-size:48px;font-weight:600;letter-spacing:-1.6px;line-height:1.05;margin-bottom:24px;}
+
+  /* STEP 01 fade rotation */
+  .step-rotate{position:relative;min-height:280px;}
+  .rotate-item{position:absolute;top:0;left:0;right:0;opacity:0;transition:opacity .6s ease;}
+  .rotate-item.active{opacity:1;}
+  .step-text .rotate-q{font-size:60px;font-weight:600;letter-spacing:-2px;line-height:1.05;margin-bottom:24px;color:#1d1d1f;}
+  .step-text .rotate-a{font-size:18px;color:#515154;line-height:1.75;}
+  .step-text .rotate-a b{font-weight:700;}
+  .step-text .rotate-a .blue{color:#0066ff;}
+  .step-text .rotate-a .red{color:#dc2626;}
+  .step-text p{font-size:18px;color:#515154;line-height:1.75;}
+  .step-text p b{color:#0066ff;font-weight:600;}
+  .step-img{display:flex;justify-content:center;align-items:center;position:relative;animation:stepFloat 4s ease-in-out infinite;}
+  .step-img img{width:100%;max-width:480px;transition:transform .6s ease;}
+  @keyframes stepFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  /* 폰 위치 보정: 모든 이미지가 폰이 우측 치우쳐 있음 */
+  /* 홀수 step (이미지 우측 배치): 좌측으로 더 당겨서 텍스트 쪽으로 */
+  .step:not(.reverse) .step-img img{transform:translateX(-22%);}
+  /* 짝수 step (이미지 좌측 배치): 보정 없음, 원래 위치 */
+  .step.reverse .step-img img{transform:translateX(0);}
+  /* 스크롤 페이드인 (transform 안 건드림, opacity만) */
+  .step-text, .step-img{opacity:0;transition:opacity .9s ease;}
+  .step.in .step-text{opacity:1;}
+  .step.in .step-img{opacity:1;transition-delay:.2s;}
+
+  /* footer */
+  .footer{padding:48px 32px;background:#fafafa;border-top:.5px solid #e8e8ed;text-align:center;font-size:12px;color:#86868b;}
+  .footer a{color:inherit;text-decoration:none;transition:color .2s;}
+  .footer a:hover{color:#1d1d1f;}
+
+  /* 앱 다운로드 섹션 (STEP 4 아래) */
+  .free-section{padding:160px 32px 140px;background:#fff;text-align:center;}
+  .free-tag{font-size:12px;color:#0066ff;letter-spacing:2px;font-weight:600;margin-bottom:18px;}
+  .free-title{font-size:64px;font-weight:600;letter-spacing:-2.4px;line-height:1.25;color:#1d1d1f;margin-bottom:60px;}
+  .free-title .blue{color:#0066ff;}
+  /* 디바이스 분기 — 기본 다 숨김, JS가 해당 디바이스만 표시 */
+  .device-block{display:none;}
+  .device-block.show{display:flex;flex-direction:column;align-items:center;gap:20px;}
+  .store-badge{display:inline-block;transition:transform .25s ease;}
+  .store-badge:hover{transform:translateY(-4px);}
+  .store-badge img{width:200px;height:200px;filter:drop-shadow(0 14px 30px rgba(0,0,0,.12));}
+  .store-label{font-size:20px;color:#0066ff;text-align:center;line-height:1.5;letter-spacing:.3px;font-weight:600;}
+
+  /* balloon */
+  .balloon{position:fixed;right:24px;bottom:24px;background:#1d1d1f;color:#fff;padding:16px 26px 16px 22px;border-radius:980px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:12px;box-shadow:0 0 12px rgba(255,215,0,.15), 0 16px 44px rgba(0,0,0,.32);cursor:pointer;z-index:90;opacity:0;transform:translateY(20px);transition:opacity .5s ease, transform .5s ease, box-shadow .4s ease;text-decoration:none;}
+  .balloon.show{opacity:1;transform:translateY(0);animation:balloonFloat 3s ease-in-out infinite 1s;}
+  .balloon:hover{box-shadow:0 0 30px rgba(255,215,0,.5), 0 16px 44px rgba(0,0,0,.32);}
+  .balloon .star{color:#fbbf24;font-size:15px;}
+  .balloon .arrow{font-size:15px;margin-left:3px;color:#fff;}
+  @keyframes balloonFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+  @media(max-width:768px){
+    .intro-logo{width:280px;margin-bottom:36px;}
+    .intro-copy .l1{font-size:24px;}
+    .intro-copy .l2{font-size:32px;}
+    .nav-inner{padding:14px 20px;}
+    .nav-menu{gap:20px;}
+    .nav-menu a{font-size:12px;}
+    .hero{padding:100px 20px 80px;}
+    .live-headline{font-size:30px;letter-spacing:-1.2px;margin-bottom:40px;line-height:1.35;}
+    .live-headline .live-dot{width:9px;height:9px;margin-right:10px;}
+    .graph-caption{font-size:15px;margin-top:18px;min-height:50px;}
+    .steps-intro{padding:100px 20px 60px;}
+    .dyn-headline{font-size:36px;letter-spacing:-1.3px;}
+    .dyn-dot{width:7px;height:7px;margin-right:10px;}
+    .steps-wrap{padding:60px 20px 100px;}
+    .step{grid-template-columns:1fr;gap:32px;margin-bottom:120px;}
+    .step.reverse .step-text{order:1;}
+    .step.reverse .step-img{order:2;}
+    .step:not(.reverse) .step-img img,
+    .step.reverse .step-img img{transform:none;}
+    .step-text h3{font-size:30px;letter-spacing:-1.2px;}
+    .step-text p{font-size:15px;}
+    .step-rotate{min-height:220px;}
+    .step-text .rotate-q{font-size:36px;letter-spacing:-1.4px;margin-bottom:14px;}
+    .step-text .rotate-a{font-size:15px;}
+    .free-section{padding:100px 20px 80px;}
+    .free-title{font-size:36px;letter-spacing:-1.3px;margin-bottom:40px;line-height:1.3;}
+    .store-badge img{width:160px;height:160px;}
+    .store-label{font-size:16px;}
+    .balloon{right:16px;bottom:16px;padding:14px 22px 14px 18px;font-size:13px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="intro" id="intro">
+  <img src="../images/web_logo_white.webp" alt="FOUR OFF" class="intro-logo">
+  <div class="intro-copy">
+    <div class="l1">수학적으로 만드는</div>
+    <div class="l2">공정한 근무표</div>
+  </div>
+</div>
+
+<nav class="main-nav" id="mainNav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span>FOUR OFF</span>
+    </div>
+    <div class="nav-menu">
+      <a class="active" data-tab="app">앱</a>
+      <a href="custom.html">맞춤제작</a>
+      <a href="developer.html">개발자</a>
+    </div>
+  </div>
+</nav>
+
+<div class="main" id="main">
+
+  <section class="hero">
+    <h1 class="live-headline"><span class="live-dot"></span>지금, 이 순간에도<br>다운로드 중</h1>
+    <div class="graph-stage">
+      <img src="../images/web_apple.webp" alt="App Store 다운로드" class="graph-img" id="graphA">
+      <img src="../images/web_google.webp" alt="Google Play 다운로드" class="graph-img is-hidden" id="graphB">
+    </div>
+    <p class="graph-caption" id="graphCaption">26년 5월 기준<br>애플 <b>90+</b> 다운로드</p>
+  </section>
+
+  <section class="steps-intro">
+    <h2 class="dyn-headline" id="dynHead">
+      <span class="dyn-word"><span class="dyn-dot"></span>엑셀을</span>
+      <span class="dyn-word">끝낸</span><br>
+      <span class="dyn-word"><span class="dyn-count dyn-shimmer" id="dynCount">0+</span></span>
+      <span class="dyn-word">병동의</span>
+      <span class="dyn-word">선택</span>
+    </h2>
+  </section>
+
+  <section class="steps-wrap">
+
+    <div class="step">
+      <div class="step-text">
+        <div class="num">STEP 01</div>
+        <div class="step-rotate" id="stepRotate">
+          <div class="rotate-item active">
+            <p class="rotate-q">4오프<br>써도 될까요?</p>
+            <p class="rotate-a"><b class="blue">당연하죠</b><br>부담없이 신청하세요</p>
+          </div>
+          <div class="rotate-item">
+            <p class="rotate-q">이브<br>다음날 데이요?</p>
+            <p class="rotate-a"><b class="red">절대 안되죠</b><br>건강이 우선이에요</p>
+          </div>
+          <div class="rotate-item">
+            <p class="rotate-q">저는<br>데이가 좋아요</p>
+            <p class="rotate-a"><b class="blue">물론이죠</b><br>원하시는대로 배정해요</p>
+          </div>
+          <div class="rotate-item">
+            <p class="rotate-q">그분과는<br>따로 일하고 싶어요</p>
+            <p class="rotate-a"><b class="red">쉿</b><br>조용히 반영해드려요</p>
+          </div>
+        </div>
+      </div>
+      <div class="step-img"><img src="../images/web_step1.webp" alt="4가지 듀티"></div>
+    </div>
+
+    <div class="step reverse">
+      <div class="step-text">
+        <div class="num">STEP 02</div>
+        <h3>역할에 따라<br>간편하게</h3>
+        <p>팀장은 <b>방 만들기</b><br>직원은 <b>방 입장하기</b></p>
+      </div>
+      <div class="step-img"><img src="../images/web_step2.webp" alt="역할 선택"></div>
+    </div>
+
+    <div class="step">
+      <div class="step-text">
+        <div class="num">STEP 03</div>
+        <h3>한 번만<br>입력하면 끝</h3>
+        <p>연도, 월, 직원<br><b>입력하면 끝</b></p>
+      </div>
+      <div class="step-img"><img src="../images/web_step3.webp" alt="기본 정보 + 옵션"></div>
+    </div>
+
+    <div class="step reverse">
+      <div class="step-text">
+        <div class="num">STEP 04</div>
+        <h3>10초 안에 완성</h3>
+        <p>모든 조건을 만족하는 근무표<br><b>엑셀 다운까지</b></p>
+      </div>
+      <div class="step-img"><img src="../images/web_step4.webp" alt="결과"></div>
+    </div>
+
+  </section>
+
+  <!-- 앱 다운로드 섹션 (디바이스 분기) -->
+  <section class="free-section">
+    <div class="free-tag">FREE FOREVER</div>
+    <h2 class="free-title">광고, 구독료<br><span class="blue">영원히 없습니다</span></h2>
+
+    <!-- PC 전용 -->
+    <div class="device-block" id="pcBlock">
+      <a href="https://park-juhwan.github.io/fouroff_entrance" class="store-badge">
+        <img src="../images/web_qrcode.webp" alt="QR 코드">
+      </a>
+      <span class="store-label">카메라 촬영 후<br>무료 다운로드</span>
+    </div>
+
+    <!-- iOS 전용 -->
+    <div class="device-block" id="iosBlock">
+      <a href="https://apps.apple.com/kr/app/%EA%B0%84%ED%98%B8%EC%82%AC-%EA%B7%BC%EB%AC%B4%ED%91%9C-%ED%8F%AC%EC%98%A4%ED%94%84/id6756883621" class="store-badge">
+        <img src="../images/web_appstore.webp" alt="App Store에서 다운로드">
+      </a>
+      <span class="store-label">터치하여<br>무료 다운로드</span>
+    </div>
+
+    <!-- Android 전용 -->
+    <div class="device-block" id="androidBlock">
+      <a href="https://play.google.com/store/apps/details?id=com.juhwanpark.fouroff&hl=ko" class="store-badge">
+        <img src="../images/web_playstore.webp" alt="Google Play에서 다운로드">
+      </a>
+      <span class="store-label">터치하여<br>무료 다운로드</span>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © 2026 FOUR OFF · <a href="terms.html">이용약관</a>
+  </footer>
+
+</div>
+
+<a href="https://kmong.com/gig/739178" target="_blank" class="balloon" id="balloon">
+  <span class="star">★</span>
+  <span>맞춤제작 의뢰</span>
+  <span class="arrow">→</span>
+</a>
+
+<script>
+  // 인트로: 같은 세션에서 이미 봤으면 스킵
+  const intro = document.getElementById('intro');
+  const mainNav = document.getElementById('mainNav');
+  const main = document.getElementById('main');
+  const balloon = document.getElementById('balloon');
+
+  if (sessionStorage.getItem('introSeen') === '1') {
+    // 이미 본 세션: 인트로 즉시 숨김, 메인은 부드럽게 페이드인
+    intro.style.transition = 'none';
+    intro.classList.add('fade');
+    mainNav.classList.add('show');
+    // 다음 프레임에 main 페이드인 (transition 정상 작동하게)
+    requestAnimationFrame(() => {
+      main.classList.add('show');
+      balloon.classList.add('show');
+    });
+  } else {
+    // 첫 진입: 인트로 클릭 대기
+    intro.addEventListener('click', () => {
+      intro.classList.add('fade');
+      mainNav.classList.add('show');
+      main.classList.add('show');
+      setTimeout(() => balloon.classList.add('show'), 1400);
+      sessionStorage.setItem('introSeen', '1');
+    });
+  }
+
+  // graph auto fade
+  const graphA = document.getElementById('graphA');
+  const graphB = document.getElementById('graphB');
+  const graphCaption = document.getElementById('graphCaption');
+  const CAPTION_A = '26년 5월 기준<br>애플 <b>90+</b> 다운로드';
+  const CAPTION_B = '26년 5월 기준<br>구글 <b>50+</b> 다운로드';
+  let showingA = true;
+  setInterval(() => {
+    if (showingA) {
+      graphA.classList.add('is-hidden');
+      graphB.classList.remove('is-hidden');
+      if (graphCaption) {
+        graphCaption.style.opacity = '0';
+        setTimeout(() => { graphCaption.innerHTML = CAPTION_B; graphCaption.style.opacity = '1'; }, 600);
+      }
+    } else {
+      graphB.classList.add('is-hidden');
+      graphA.classList.remove('is-hidden');
+      if (graphCaption) {
+        graphCaption.style.opacity = '0';
+        setTimeout(() => { graphCaption.innerHTML = CAPTION_A; graphCaption.style.opacity = '1'; }, 600);
+      }
+    }
+    showingA = !showingA;
+  }, 4000);
+
+  // STEP 01 fade rotation
+  const rotateItems = document.querySelectorAll('#stepRotate .rotate-item');
+  let rotateIdx = 0;
+  if (rotateItems.length > 0) {
+    setInterval(() => {
+      rotateItems[rotateIdx].classList.remove('active');
+      rotateIdx = (rotateIdx + 1) % rotateItems.length;
+      rotateItems[rotateIdx].classList.add('active');
+    }, 3500);
+  }
+
+  // nav
+  const navLinks = document.querySelectorAll('.nav-menu a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      // href 있는 링크는 페이지 이동 허용 (preventDefault 안 함)
+      if (link.getAttribute('href')) return;
+      // href 없는 (data-tab) 링크만 active 표시 변경
+      e.preventDefault();
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+
+  // dynamic headline: word fade-in + count up
+  const dynHead = document.getElementById('dynHead');
+  const dynCount = document.getElementById('dynCount');
+  let counted = false;
+
+  function countUp() {
+    if (counted) return;
+    counted = true;
+    let n = 0;
+    const target = 100;
+    const duration = 1200; // ms
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min(1, (now - start) / duration);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - t, 3);
+      n = Math.round(eased * target);
+      dynCount.textContent = n + '+';
+      if (t < 1) requestAnimationFrame(step);
+      else dynCount.textContent = '100+';
+    }
+    requestAnimationFrame(step);
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        dynHead.classList.add('in');
+        setTimeout(countUp, 500); // 워드 페이드인 살짝 진행 후 카운트업
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+  io.observe(dynHead);
+
+  // step cards fade-in on scroll
+  const steps = document.querySelectorAll('.step');
+  const stepIo = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        stepIo.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  steps.forEach(s => stepIo.observe(s));
+
+  // 디바이스 분기: PC / iOS / Android 중 하나만 표시
+  (function detectDevice(){
+    const ua = navigator.userAgent;
+    const isiOS = /iPhone|iPad|iPod/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    if (isiOS) {
+      document.getElementById('iosBlock').classList.add('show');
+    } else if (isAndroid) {
+      document.getElementById('androidBlock').classList.add('show');
+    } else {
+      document.getElementById('pcBlock').classList.add('show');
+    }
+  })();
+</script>
+
+</body>
+</html>
