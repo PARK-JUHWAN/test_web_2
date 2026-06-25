@@ -213,14 +213,6 @@
 </head>
 <body>
 
-<div class="intro" id="intro">
-  <img src="../images/web_logo_white.webp" alt="FOUR OFF" class="intro-logo">
-  <div class="intro-copy">
-    <div class="l1">수학적으로 만드는</div>
-    <div class="l2">공정한 근무표</div>
-  </div>
-</div>
-
 <nav class="main-nav" id="mainNav">
   <div class="nav-inner">
     <a href="../index.html" class="nav-brand"><span>포오프 마켓</span></a>
@@ -352,32 +344,16 @@
 </a>
 
 <script>
-  // 인트로: 같은 세션에서 이미 봤으면 스킵
-  const intro = document.getElementById('intro');
+  // 인트로 제거됨 → 메인 콘텐츠를 바로 표시
   const mainNav = document.getElementById('mainNav');
   const main = document.getElementById('main');
   const balloon = document.getElementById('balloon');
 
-  if (sessionStorage.getItem('introSeen') === '1') {
-    // 이미 본 세션: 인트로 즉시 숨김, 메인은 부드럽게 페이드인
-    intro.style.transition = 'none';
-    intro.classList.add('fade');
-    mainNav.classList.add('show');
-    // 다음 프레임에 main 페이드인 (transition 정상 작동하게)
-    requestAnimationFrame(() => {
-      main.classList.add('show');
-      balloon.classList.add('show');
-    });
-  } else {
-    // 첫 진입: 인트로 클릭 대기
-    intro.addEventListener('click', () => {
-      intro.classList.add('fade');
-      mainNav.classList.add('show');
-      main.classList.add('show');
-      setTimeout(() => balloon.classList.add('show'), 1400);
-      sessionStorage.setItem('introSeen', '1');
-    });
-  }
+  mainNav.classList.add('show');
+  requestAnimationFrame(() => {
+    main.classList.add('show');
+    if (balloon) balloon.classList.add('show');
+  });
 
   // graph auto fade
   const graphA = document.getElementById('graphA');

@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>포오프 마켓 — 근무표 의뢰</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Pretendard','Apple SD Gothic Neo',sans-serif;background:#fff;color:#1d1d1f;-webkit-font-smoothing:antialiased;}
@@ -14,7 +17,7 @@
 
   /* ================= 2단 헤더 (5번 미니멀, 메뉴 가운데) ================= */
   /* 1단: 로고 / 홍보문구(작게) / 앱아이콘+로그인 */
-  .main-nav{position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:100;height:64px;display:flex;align-items:center;}
+  .main-nav{position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:100;height:72px;display:flex;align-items:center;}
   .nav-inner{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;width:100%;}
   /* 양옆 같은 너비 (flex:1 1 0) → 가운데가 진짜 정중앙. flex 유지라 안 무너짐 */
   .nav-side{flex:1 1 0;display:flex;align-items:center;min-width:0;}
@@ -23,10 +26,10 @@
   .nav-brand{font-size:16px;font-weight:700;letter-spacing:-.4px;cursor:pointer;white-space:nowrap;}
   .nav-brand .mk{color:#0066ff;}
   /* 가운데 홍보문구 (눈에 띄게, fade) — span이 absolute라 promo에 너비 필요 */
-  .promo{position:relative;height:26px;width:360px;max-width:42vw;overflow:hidden;text-align:center;}
-  .promo span{position:absolute;left:0;right:0;top:0;font-size:17px;font-weight:700;color:#1d1d1f;letter-spacing:-.4px;opacity:0;transition:opacity .6s ease;white-space:nowrap;}
-  .promo span.on{opacity:1;}
-  .promo b{color:#0066ff;font-weight:800;}
+  .promo{position:relative;height:40px;width:480px;max-width:46vw;overflow:hidden;text-align:center;}
+  .promo span{position:absolute;left:0;right:0;top:0;font-family:'Nanum Brush Script',cursive;font-size:33px;font-weight:400;color:#1d1d1f;letter-spacing:1px;line-height:40px;opacity:0;transform:translateY(6px);transition:opacity .9s ease,transform .9s ease;white-space:nowrap;-webkit-text-stroke:0.3px #1d1d1f;}
+  .promo span.on{opacity:1;transform:translateY(0);}
+  .promo b{color:#0066ff;font-weight:400;-webkit-text-stroke:0.3px #0066ff;}
   /* 우측: 로그인 + 앱 박스 */
   .btn-login{background:none;border:1px solid #d2d2d7;color:#1d1d1f;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
   .btn-login:hover{border-color:#0066ff;color:#0066ff;}
@@ -36,7 +39,7 @@
   .btn-app:hover{background:#0052cc;}
 
   /* 2단: 메뉴 가운데 정렬 */
-  .sub-nav{position:sticky;top:64px;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:99;}
+  .sub-nav{position:sticky;top:72px;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(0,0,0,.06);z-index:99;}
   .sub-inner{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;justify-content:center;gap:38px;align-items:center;height:52px;}
   .sub-inner a{font-size:15px;color:#515154;font-weight:500;cursor:pointer;transition:color .25s;position:relative;}
   .sub-inner a:hover{color:#1d1d1f;}
@@ -121,8 +124,8 @@
     </div>
     <div class="nav-center">
       <div class="promo" id="promo">
-        <span class="on">근무표 맡기고 <b>시간</b>을 벌자</span>
-        <span>근무표 만들고 <b>용돈</b>을 벌자</span>
+        <span class="on">"근무표 맡기고 <b>시간</b>을 벌자!"</span>
+        <span>"근무표 만들고 <b>용돈</b>을 벌자!"</span>
       </div>
     </div>
     <div class="nav-side right">
@@ -350,11 +353,17 @@ function updateAuthUI(loggedIn) {
   var items = document.querySelectorAll('#promo span');
   if (items.length < 2) return;
   var idx = 0;
+  var FADE = 900;      // CSS transition과 동일 (0.9초)
+  var SHOW = 6000;     // 한 문구가 보이는 시간 (6초)
   setInterval(function() {
+    // 1) 현재 문구 페이드아웃
     items[idx].classList.remove('on');
-    idx = (idx + 1) % items.length;
-    items[idx].classList.add('on');
-  }, 3500);
+    // 2) 완전히 사라진 뒤(FADE 후) 다음 문구 페이드인 → 겹침 없음
+    setTimeout(function() {
+      idx = (idx + 1) % items.length;
+      items[idx].classList.add('on');
+    }, FADE);
+  }, SHOW);
 })();
 </script>
 
